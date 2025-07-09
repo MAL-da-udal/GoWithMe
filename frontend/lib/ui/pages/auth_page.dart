@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_with_me/data/functions/validations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:go_with_me/domain/services/shared_preferences_service.dart';
 import 'package:go_router/go_router.dart';
 
 class AuthPage extends StatefulWidget {
@@ -32,9 +32,9 @@ class _AuthPageState extends State<AuthPage> {
     setState(() => isLoading = true);
 
     await Future.delayed(const Duration(seconds: 1));
+    final prefsService = SharedPreferencesService();
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', 'mock.jwt.token');
+    prefsService.saveToken('mock.jwt.token');
 
     setState(() => isLoading = false);
 

@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:go_with_me/domain/services/shared_preferences_service.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
@@ -8,15 +12,14 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
-  String name = '';
   String gender = 'Ж';
-  int age = 0;
-  String description = '';
   Set<String> selectedActivities = {};
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
   final ageController = TextEditingController();
+  final aliasController = TextEditingController();
   final descriptionController = TextEditingController();
+  final _prefsService = SharedPreferencesService();
 
   final activities = [
     'Йога',
@@ -30,34 +33,99 @@ class _ProfileTabState extends State<ProfileTab> {
     'Походы',
   ];
 
+  Uint8List? _avatarBytes;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadAvatar();
+    _loadProfile();
+  }
+
+  Future<void> _pickAvatar() async {
+    final picker = ImagePicker();
+    final image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final bytes = await image.readAsBytes();
+      setState(() => _avatarBytes = bytes);
+      _prefsService.saveAvatar(bytes);
+    }
+  }
+
+  Future<void> _loadAvatar() async {
+    final avatar = await _prefsService.loadAvatar();
+    if (avatar != null) {
+      setState(() => _avatarBytes = avatar);
+    }
+  }
+
+  Future<void> _loadProfile() async {
+    final data = await _prefsService.loadProfile();
+    setState(() {
+      nameController.text = data['name'];
+      surnameController.text = data['surname'];
+      ageController.text = data['age'];
+      aliasController.text = data['alias'];
+      gender = data['gender'];
+      descriptionController.text = data['description'];
+      selectedActivities = Set<String>.from(data['activities']);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          CircleAvatar(
-            radius: 50,
-            child: Text(name == '' ? "" : name[0].toUpperCase()),
+          GestureDetector(
+            onTap: _pickAvatar,
+            child: CircleAvatar(
+              radius: 50,
+              backgroundImage: _avatarBytes != null
+                  ? MemoryImage(_avatarBytes!)
+                  : null,
+              child: _avatarBytes == null
+                  ? const Icon(Icons.upload, size: 20)
+                  : null,
+            ),
           ),
           const SizedBox(height: 16),
-
           TextField(
             controller: nameController,
-            decoration: const InputDecoration(labelText: 'Имя'),
+            decoration: const InputDecoration(
+              labelText: 'Имя',
+              border: OutlineInputBorder(),
+            ),
           ),
-
+          const SizedBox(height: 8),
           TextField(
             controller: surnameController,
-            decoration: const InputDecoration(labelText: 'Фамилия'),
+            decoration: const InputDecoration(
+              labelText: 'Фамилия',
+              border: OutlineInputBorder(),
+            ),
           ),
-
+          const SizedBox(height: 8),
           TextField(
             controller: ageController,
-            decoration: const InputDecoration(labelText: 'Возраст'),
+            decoration: const InputDecoration(
+              labelText: 'Возраст',
+              border: OutlineInputBorder(),
+            ),
             keyboardType: TextInputType.number,
           ),
-
+          const SizedBox(height: 8),
+          TextField(
+            controller: aliasController,
+            decoration: const InputDecoration(
+              labelText: 'Telegram',
+              prefixText: '@',
+              hintText: 'username',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -74,9 +142,7 @@ class _ProfileTabState extends State<ProfileTab> {
               ),
             ],
           ),
-
           const SizedBox(height: 16),
-
           TextField(
             controller: descriptionController,
             decoration: const InputDecoration(
@@ -85,9 +151,7 @@ class _ProfileTabState extends State<ProfileTab> {
             ),
             maxLines: 3,
           ),
-
           const SizedBox(height: 16),
-
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -106,12 +170,18 @@ class _ProfileTabState extends State<ProfileTab> {
               );
             }).toList(),
           ),
-
           const SizedBox(height: 20),
-
           ElevatedButton(
-            onPressed: () {
-              //TODO: add implementation
+            onPressed: () async {
+              await _prefsService.saveProfile(
+                name: nameController.text,
+                surname: surnameController.text,
+                age: ageController.text,
+                alias: aliasController.text,
+                gender: gender,
+                description: descriptionController.text,
+                activities: selectedActivities,
+              );
             },
             child: const Text("Сохранить"),
           ),
