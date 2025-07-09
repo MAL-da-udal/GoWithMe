@@ -9,10 +9,14 @@ final router = GoRouter(
   initialLocation: '/',
 
   routes: [
-     GoRoute(path: '/', builder: (context, state) => const SplashPage()),
+    GoRoute(path: '/', builder: (context, state) => const SplashPage()),
     GoRoute(path: '/auth', builder: (context, state) => const AuthPage()),
     GoRoute(path: '/home', builder: (context, state) => const HomePage()),
     GoRoute(path: '/chat/:id', builder: (context, state) => const ChatPage()),
-    GoRoute(path: '/profile/:id', builder: (context, state) => const UserProfilePage()),
+    GoRoute(
+      path: '/profile/:token',
+      builder: (context, state) =>
+          UserProfilePage(token: state.pathParameters['token']!),
+    ),
   ],
 );
