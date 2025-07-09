@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_with_me/data/functions/validations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:go_with_me/domain/services/shared_preferences_service.dart';
 import 'package:go_router/go_router.dart';
 
 class AuthPage extends StatefulWidget {
@@ -13,10 +13,17 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   final _formKey = GlobalKey<FormState>();
   bool? isLogin;
-  String email = '';
-  String password = '';
-  String confirmPassword = '';
+  final nameComtroller = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   bool isLoading = false;
+  bool isObscured = true;
+  bool isObscuredConfirm = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
@@ -25,13 +32,19 @@ class _AuthPageState extends State<AuthPage> {
     setState(() => isLoading = true);
 
     await Future.delayed(const Duration(seconds: 1));
+    final prefsService = SharedPreferencesService();
 
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', 'mock.jwt.token');
+    prefsService.saveToken('mock.jwt.token');
 
     setState(() => isLoading = false);
 
     if (mounted) context.go('/home');
+  }
+
+  void clearControllers() {
+    nameComtroller.clear();
+    passwordController.clear();
+    confirmPasswordController.clear();
   }
 
   @override
@@ -46,7 +59,12 @@ class _AuthPageState extends State<AuthPage> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.arrow_back),
-                      onPressed: () => setState(() => isLogin = null),
+                      onPressed: () {
+                        clearControllers();
+                        setState(() => isLogin = null);
+                        isObscured = true;
+                        isObscuredConfirm = true;
+                      },
                     ),
                     const Spacer(),
                   ],
@@ -71,7 +89,7 @@ class _AuthPageState extends State<AuthPage> {
                             ? Colors.blue
                             : Colors.grey[300],
                       ),
-                      child: const Text('Вход'),
+                      child: const Text('Login'),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
@@ -81,7 +99,7 @@ class _AuthPageState extends State<AuthPage> {
                             ? Colors.blue
                             : Colors.grey[300],
                       ),
-                      child: const Text('Регистрация'),
+                      child: const Text('Register'),
                     ),
 
                     const SizedBox(height: 20),
@@ -95,32 +113,56 @@ class _AuthPageState extends State<AuthPage> {
                         child: Column(
                           children: [
                             TextFormField(
+                              controller: nameComtroller,
                               decoration: const InputDecoration(
                                 labelText: 'Login',
                               ),
-                              onSaved: (val) => email = val ?? '',
                               validator: (val) => validateLogin(val ?? ''),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
-                              obscureText: true,
-                              decoration: const InputDecoration(
+                              controller: passwordController,
+                              obscureText: isObscured,
+                              decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    isObscured
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      isObscured = !isObscured;
+                                    });
+                                  },
+                                ),
                                 labelText: 'Password',
                               ),
-                              onSaved: (val) => password = val ?? '',
                               validator: (val) => validatePassword(val ?? ''),
                             ),
                             if (isLogin == false) ...[
                               const SizedBox(height: 20),
                               TextFormField(
-                                obscureText: true,
-                                decoration: const InputDecoration(
+                                controller: confirmPasswordController,
+                                obscureText: isObscuredConfirm,
+                                decoration: InputDecoration(
                                   labelText: 'Retry password',
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      isObscuredConfirm
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        isObscuredConfirm = !isObscuredConfirm;
+                                      });
+                                    },
+                                  ),
                                 ),
-                                onSaved: (val) => confirmPassword = val ?? '',
                                 validator: (val) =>
                                     validatePasswordConfirmation(
-                                      password,
+                                      passwordController.text,
                                       val ?? '',
                                     ),
                               ),

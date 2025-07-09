@@ -22,5 +22,8 @@ String? validatePasswordConfirmation(
   if (password != passwordConfirmation) {
     return 'Passwords do not match';
   }
+  if (password.isEmpty) {
+    return 'Please enter a password';
+  }
   return null;
 }
