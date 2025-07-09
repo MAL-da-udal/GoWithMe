@@ -20,7 +20,7 @@ String? validatePasswordConfirmation(
   String passwordConfirmation,
 ) {
   if (password != passwordConfirmation) {
-\    return 'Passwords do not match';
+    return 'Passwords do not match';
   }
   if (password.isEmpty) {
     return 'Please enter a password';
