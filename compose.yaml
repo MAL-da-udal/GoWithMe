@@ -1,6 +1,10 @@
 services:
   backend:
     build: ./backend/
-    
-  frontend:
-    build: ./frontend/
+    environment:
+      - POSTGRES_USER=gowithme
+      - POSTGRES_PASSWORD=gwm-pwd-123
+      - POSTGRES_DB=gowithme
+      - SECRET_KEY=guten_tag
+    ports:
+      - "8000:8000"
