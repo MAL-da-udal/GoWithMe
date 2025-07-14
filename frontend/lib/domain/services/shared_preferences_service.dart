@@ -74,4 +74,26 @@ class SharedPreferencesService {
       'activities': prefs.getStringList(_activitiesKey) ?? [],
     };
   }
+
+  Future<void> clearProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_nameKey);
+    await prefs.remove(_surnameKey);
+    await prefs.remove(_ageKey);
+    await prefs.remove(_aliasKey);
+    await prefs.remove(_genderKey);
+    await prefs.remove(_descriptionKey);
+    await prefs.remove(_activitiesKey);
+    await prefs.remove(_avatarKey);
+  }
+
+  Future<String?> loadTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('themeMode');
+  }
+
+  Future<void> saveTheme(String theme) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('themeMode', theme);
+  }
 }
