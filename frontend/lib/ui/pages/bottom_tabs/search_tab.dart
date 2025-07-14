@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:go_with_me/ui/widgets/custom_filter_chip.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({super.key});
@@ -60,49 +61,52 @@ class _SearchTabState extends State<SearchTab> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 16),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: interests.map((interest) {
-            final isSelected = selected.contains(interest);
-            return FilterChip(
-              label: Text(interest),
-              selected: isSelected,
-              onSelected: (_) {
-                setState(() {
-                  isSelected
-                      ? selected.remove(interest)
-                      : selected.add(interest);
-                });
-              },
-            );
-          }).toList(),
-        ),
-        SizedBox(height: 16),
+    return SafeArea(
+      child: Column(
+        children: [
+          SizedBox(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: interests.map((interest) {
+              final isSelected = selected.contains(interest);
 
-        ElevatedButton(onPressed: _searchUsers, child: Text('Найти')),
-        SizedBox(height: 16),
-
-        Expanded(
-          child: ListView.builder(
-            itemCount: users.length,
-            itemBuilder: (_, index) {
-              final user = users[index];
-              return Card(
-                child: ListTile(
-                  leading: CircleAvatar(child: Icon(Icons.person)),
-                  title: Text('${user.name}, ${user.age}'),
-                  subtitle: Text(user.interests.join(', ')),
-                  onTap: () => context.push('/profile/${user.token}'),
-                ),
+              return CustomFilterChip(
+                label: interest,
+                selected: isSelected,
+                onSelected: (_) {
+                  setState(() {
+                    isSelected
+                        ? selected.remove(interest)
+                        : selected.add(interest);
+                  });
+                },
               );
-            },
+            }).toList(),
           ),
-        ),
-      ],
+          SizedBox(height: 16),
+
+          ElevatedButton(onPressed: _searchUsers, child: Text('Найти')),
+          SizedBox(height: 16),
+
+          Expanded(
+            child: ListView.builder(
+              itemCount: users.length,
+              itemBuilder: (_, index) {
+                final user = users[index];
+                return Card(
+                  child: ListTile(
+                    leading: CircleAvatar(child: Icon(Icons.person)),
+                    title: Text('${user.name}, ${user.age}'),
+                    subtitle: Text(user.interests.join(', ')),
+                    onTap: () => context.push('/profile/${user.token}'),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

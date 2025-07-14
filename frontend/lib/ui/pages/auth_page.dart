@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_with_me/data/functions/validations.dart';
 import 'package:go_with_me/domain/services/shared_preferences_service.dart';
 import 'package:go_router/go_router.dart';
+import 'package:go_with_me/ui/theme/app_colors.dart';
+import 'package:go_with_me/ui/widgets/icon_back.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -57,9 +59,8 @@ class _AuthPageState extends State<AuthPage> {
               if (isLogin != null) ...[
                 Row(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back),
-                      onPressed: () {
+                    IconBack(
+                      callback: () {
                         clearControllers();
                         setState(() => isLogin = null);
                         isObscured = true;
@@ -75,7 +76,7 @@ class _AuthPageState extends State<AuthPage> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.1),
 
                   Image.asset(
-                    'assets/logo.png',
+                    'assets/images/logo.png',
                     height: MediaQuery.of(context).size.height * 0.2,
                   ),
 
@@ -85,21 +86,21 @@ class _AuthPageState extends State<AuthPage> {
                     ElevatedButton(
                       onPressed: () => setState(() => isLogin = true),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: isLogin == true
-                            ? Colors.blue
-                            : Colors.grey[300],
+                        backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 16,
+                        ),
                       ),
-                      child: const Text('Login'),
+                      child: Text('Login'),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () => setState(() => isLogin = false),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: isLogin == false
-                            ? Colors.blue
-                            : Colors.grey[300],
+                        backgroundColor: Theme.of(context).colorScheme.tertiary,
                       ),
-                      child: const Text('Register'),
+                      child: Text('Register'),
                     ),
 
                     const SizedBox(height: 20),
@@ -114,9 +115,7 @@ class _AuthPageState extends State<AuthPage> {
                           children: [
                             TextFormField(
                               controller: nameComtroller,
-                              decoration: const InputDecoration(
-                                labelText: 'Login',
-                              ),
+                              decoration: InputDecoration(labelText: 'Login'),
                               validator: (val) => validateLogin(val ?? ''),
                             ),
                             const SizedBox(height: 20),
@@ -169,9 +168,18 @@ class _AuthPageState extends State<AuthPage> {
                             ],
                             const SizedBox(height: 20),
                             isLoading
-                                ? const CircularProgressIndicator()
+                                ? CircularProgressIndicator()
                                 : ElevatedButton(
                                     onPressed: _submit,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: isLogin == true
+                                          ? AppColors.primary
+                                          : null,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 40,
+                                        vertical: 16,
+                                      ),
+                                    ),
                                     child: Text(
                                       isLogin! ? 'Log in' : 'Register',
                                     ),
