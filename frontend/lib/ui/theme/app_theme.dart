@@ -41,9 +41,10 @@ class AppTheme {
       titleLarge: AppTextStyles.title,
     ),
 
-    colorScheme: const ColorScheme.light(
+    colorScheme: ColorScheme.light(
       primary: AppColors.primary,
       secondary: AppColors.secondaryText,
+      tertiary: Colors.black.withAlpha(200),
     ),
     iconTheme: const IconThemeData(color: Colors.black, size: 24),
     iconButtonTheme: IconButtonThemeData(
@@ -94,6 +95,7 @@ class AppTheme {
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primary,
       secondary: AppColors.secondaryText,
+      tertiary: Colors.white12,
     ),
     iconTheme: const IconThemeData(color: Colors.white),
     iconButtonTheme: IconButtonThemeData(

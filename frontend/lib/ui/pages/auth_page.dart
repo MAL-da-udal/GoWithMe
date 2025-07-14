@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_with_me/data/functions/validations.dart';
 import 'package:go_with_me/domain/services/shared_preferences_service.dart';
 import 'package:go_router/go_router.dart';
+import 'package:go_with_me/ui/theme/app_colors.dart';
 import 'package:go_with_me/ui/widgets/icon_back.dart';
 
 class AuthPage extends StatefulWidget {
@@ -85,9 +86,7 @@ class _AuthPageState extends State<AuthPage> {
                     ElevatedButton(
                       onPressed: () => setState(() => isLogin = true),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: isLogin == true
-                            ? Colors.blue
-                            : Colors.grey[300],
+                        backgroundColor: Theme.of(context).colorScheme.tertiary,
                         padding: EdgeInsets.symmetric(
                           horizontal: 40,
                           vertical: 16,
@@ -99,9 +98,7 @@ class _AuthPageState extends State<AuthPage> {
                     ElevatedButton(
                       onPressed: () => setState(() => isLogin = false),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: isLogin == false
-                            ? Colors.blue
-                            : Colors.grey[300],
+                        backgroundColor: Theme.of(context).colorScheme.tertiary,
                       ),
                       child: Text('Register'),
                     ),
@@ -176,8 +173,8 @@ class _AuthPageState extends State<AuthPage> {
                                     onPressed: _submit,
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: isLogin == true
-                                          ? Colors.blue
-                                          : Colors.grey[300],
+                                          ? AppColors.primary
+                                          : null,
                                       padding: EdgeInsets.symmetric(
                                         horizontal: 40,
                                         vertical: 16,
