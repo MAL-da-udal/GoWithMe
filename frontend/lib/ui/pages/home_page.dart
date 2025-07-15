@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _currentIndex = int.tryParse(widget.index ?? '0') ?? 0;
+    _currentIndex = int.tryParse(widget.index ?? '1') ?? 1;
     _pageController = PageController(initialPage: _currentIndex);
   }
 

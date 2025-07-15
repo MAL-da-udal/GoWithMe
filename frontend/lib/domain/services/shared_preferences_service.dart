@@ -8,26 +8,10 @@ class SharedPreferencesService {
   static const _nameKey = 'name';
   static const _surnameKey = 'surname';
   static const _ageKey = 'age';
-  static const _aliasKey = 'alias';
+  static const _aliasKey = 'telegram';
   static const _genderKey = 'gender';
   static const _descriptionKey = 'description';
   static const _activitiesKey = 'activities';
-  static const _tokenKey = 'auth_token';
-
-  Future<void> saveToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_tokenKey, token);
-  }
-
-  Future<String?> loadToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_tokenKey);
-  }
-
-  Future<void> clearToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_tokenKey);
-  }
 
   Future<void> saveAvatar(Uint8List bytes) async {
     final prefs = await SharedPreferences.getInstance();
@@ -50,7 +34,7 @@ class SharedPreferencesService {
     required String alias,
     required String gender,
     required String description,
-    required Set<String> activities,
+    required List<String> activities,
   }) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_nameKey, name);
@@ -59,7 +43,11 @@ class SharedPreferencesService {
     await prefs.setString(_aliasKey, alias);
     await prefs.setString(_genderKey, gender);
     await prefs.setString(_descriptionKey, description);
-    await prefs.setStringList(_activitiesKey, activities.toList());
+  }
+
+  Future<void> saveActivities(List<String> activities) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList(_activitiesKey, activities);
   }
 
   Future<Map<String, dynamic>> loadProfile() async {
@@ -68,7 +56,7 @@ class SharedPreferencesService {
       'name': prefs.getString(_nameKey) ?? '',
       'surname': prefs.getString(_surnameKey) ?? '',
       'age': prefs.getString(_ageKey) ?? '',
-      'alias': prefs.getString(_aliasKey) ?? '',
+      'telegram': prefs.getString(_aliasKey) ?? '',
       'gender': prefs.getString(_genderKey) ?? 'Ж',
       'description': prefs.getString(_descriptionKey) ?? '',
       'activities': prefs.getStringList(_activitiesKey) ?? [],

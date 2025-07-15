@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_with_me/data/functions/validations.dart';
-import 'package:go_with_me/domain/services/shared_preferences_service.dart';
 import 'package:go_router/go_router.dart';
+import 'package:go_with_me/domain/services/app_services.dart';
 import 'package:go_with_me/ui/theme/app_colors.dart';
 import 'package:go_with_me/ui/widgets/icon_back.dart';
 
@@ -33,14 +33,30 @@ class _AuthPageState extends State<AuthPage> {
 
     setState(() => isLoading = true);
 
-    await Future.delayed(const Duration(seconds: 1));
-    final prefsService = SharedPreferencesService();
-
-    prefsService.saveToken('mock.jwt.token');
-
-    setState(() => isLoading = false);
-
-    if (mounted) context.go('/home');
+    try {
+      if (isLogin == true) {
+        await authRepository.login(
+          nameComtroller.text.trim(),
+          passwordController.text.trim(),
+        );
+      } else {
+        await authRepository.register(
+          nameComtroller.text.trim(),
+          passwordController.text.trim(),
+        );
+      }
+      if (mounted) {
+        context.go('/home');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Ошибка: ${e.toString()}')));
+      }
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
   }
 
   void clearControllers() {

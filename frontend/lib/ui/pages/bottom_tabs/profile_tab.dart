@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:go_with_me/domain/services/app_services.dart';
 import 'package:go_with_me/domain/services/shared_preferences_service.dart';
 import 'package:go_with_me/ui/widgets/custom_filter_chip.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +16,7 @@ class ProfileTab extends StatefulWidget {
 
 class _ProfileTabState extends State<ProfileTab> {
   String gender = 'Ж';
-  Set<String> selectedActivities = {};
+  List<String> selectedActivities = [];
   final nameController = TextEditingController();
   final surnameController = TextEditingController();
   final ageController = TextEditingController();
@@ -23,17 +24,7 @@ class _ProfileTabState extends State<ProfileTab> {
   final descriptionController = TextEditingController();
   final _prefsService = SharedPreferencesService();
 
-  final activities = [
-    'Йога',
-    'Бег',
-    'Велосипед',
-    'Плавание',
-    'Футбол',
-    'Танцы',
-    'Питание',
-    'Медитация',
-    'Походы',
-  ];
+  final activities = ['swimming', 'bicycle'];
 
   Uint8List? _avatarBytes;
 
@@ -42,7 +33,34 @@ class _ProfileTabState extends State<ProfileTab> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadAvatar();
-      _loadProfile();
+      _loadCachedThenUpdate();
+    });
+  }
+
+  Future<void> _loadCachedThenUpdate() async {
+    final cached = await profileRepository.loadCachedProfile();
+    _applyProfileToUI(cached, null);
+
+    try {
+      final updated = await profileRepository.fetchAndCacheProfile();
+      final activities = await profileRepository.getUserInterests();
+      _applyProfileToUI(updated, activities);
+    } catch (e) {
+      // print("Ошибка загрузки профиля с сервера: $e");
+    }
+  }
+
+  void _applyProfileToUI(Map<String, dynamic> data, List<String>? activities) {
+    setState(() {
+      nameController.text = data['name'];
+      surnameController.text = data['surname'];
+      ageController.text = data['age'] == 0 ? '' : data['age'].toString();
+      aliasController.text = data['telegram'];
+      gender = data['gender'];
+      descriptionController.text = data['description'];
+      selectedActivities = data['activities'] == null
+          ? activities ?? []
+          : List<String>.from(data['activities']);
     });
   }
 
@@ -61,19 +79,6 @@ class _ProfileTabState extends State<ProfileTab> {
     if (avatar != null) {
       setState(() => _avatarBytes = avatar);
     }
-  }
-
-  Future<void> _loadProfile() async {
-    final data = await _prefsService.loadProfile();
-    setState(() {
-      nameController.text = data['name'];
-      surnameController.text = data['surname'];
-      ageController.text = data['age'];
-      aliasController.text = data['alias'];
-      gender = data['gender'];
-      descriptionController.text = data['description'];
-      selectedActivities = Set<String>.from(data['activities']);
-    });
   }
 
   @override
@@ -202,19 +207,19 @@ class _ProfileTabState extends State<ProfileTab> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
-                    await _prefsService.saveProfile(
-                      name: nameController.text,
-                      surname: surnameController.text,
-                      age: ageController.text,
-                      alias: aliasController.text,
-                      gender: gender,
-                      description: descriptionController.text,
-                      activities: selectedActivities,
+                    await profileRepository.updateProfile(
+                      nameController.text,
+                      surnameController.text,
+                      ageController.text,
+                      aliasController.text,
+                      gender,
+                      descriptionController.text,
+                      selectedActivities,
                     );
 
                     ScaffoldMessenger.of(
                       context,
-                    ).showSnackBar(SnackBar(content: Text('Профиль сохранен')));
+                    ).showSnackBar(SnackBar(content: Text('Профиль обновлён')));
                   },
                   child: Text("Сохранить"),
                 ),

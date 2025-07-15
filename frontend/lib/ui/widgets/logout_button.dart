@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_with_me/domain/services/shared_preferences_service.dart';
+import 'package:go_with_me/domain/services/app_services.dart';
 
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
@@ -20,11 +20,9 @@ class LogoutButton extends StatelessWidget {
                 child: Text('Нет'),
               ),
               TextButton(
-                onPressed: () {
-                  final prefs = SharedPreferencesService();
-                  prefs.clearProfile();
-                  prefs.clearToken();
-                  context.go('/auth');
+                onPressed: () async {
+                  await apiClient.clearTokens();
+                  if (context.mounted) context.go('/auth');
                 },
                 child: Text('Да'),
               ),
