@@ -53,7 +53,9 @@ jobs:
         run: flutter analyze --no-fatal-warnings --no-fatal-infos
 
       - name: Build web
-        run: flutter build web --release --base-href='/GoWithMe/'
+        run: |
+          cd frontend
+          flutter build web --release --base-href='/GoWithMe/'
 
       - name: Deploy to GitHub Pages
         uses: bluefireteam/flutter-gh-pages@v9
