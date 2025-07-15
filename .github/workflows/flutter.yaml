@@ -37,7 +37,7 @@ jobs:
         run: genhtml coverage/lcov.info --output-directory coverage/html
 
       - name: Upload coverage artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: flutter-coverage-report
           path: coverage/html
