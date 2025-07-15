@@ -21,6 +21,11 @@ const docTemplate = `{
     "paths": {
         "/auth/": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Validates token, and if it valid returns it's claims",
                 "consumes": [
                     "application/json"
@@ -32,15 +37,6 @@ const docTemplate = `{
                     "Authorization"
                 ],
                 "summary": "Get token claims",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Access token",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -111,11 +107,13 @@ const docTemplate = `{
                 "summary": "Refresh access token",
                 "parameters": [
                     {
-                        "type": "string",
                         "description": "Refresh Token",
                         "name": "refresh_token",
-                        "in": "query",
-                        "required": true
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.RefreshRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -175,6 +173,11 @@ const docTemplate = `{
         },
         "/avatar": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retrieves the avatar image for the specified user or the authenticated user if no user_id is provided.",
                 "produces": [
                     "image/jpeg",
@@ -185,13 +188,6 @@ const docTemplate = `{
                 ],
                 "summary": "Get user avatar",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Access token",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
-                    },
                     {
                         "type": "integer",
                         "description": "User ID",
@@ -233,6 +229,11 @@ const docTemplate = `{
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Updates the avatar image for the authenticated user. Supports JPEG and PNG files up to 2MB.",
                 "consumes": [
                     "multipart/form-data"
@@ -245,13 +246,6 @@ const docTemplate = `{
                 ],
                 "summary": "Update user avatar",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "JWT token for authentication",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
-                    },
                     {
                         "type": "file",
                         "description": "Avatar image file (JPEG or PNG)",
@@ -293,6 +287,11 @@ const docTemplate = `{
         },
         "/interests/": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -305,13 +304,6 @@ const docTemplate = `{
                 "summary": "Get user's interests",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Token",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
                         "type": "integer",
                         "description": "User ID",
                         "name": "user_id",
@@ -321,6 +313,11 @@ const docTemplate = `{
                 "responses": {}
             },
             "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "consumes": [
                     "application/json"
                 ],
@@ -332,13 +329,6 @@ const docTemplate = `{
                 ],
                 "summary": "Update user's interests",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Access token",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
-                    },
                     {
                         "description": "Interests to set",
                         "name": "interests",
@@ -354,6 +344,11 @@ const docTemplate = `{
         },
         "/interests/all": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Retrieves paginated users who have specified interests, along with their profiles and all interests",
                 "consumes": [
                     "application/json"
@@ -366,13 +361,6 @@ const docTemplate = `{
                 ],
                 "summary": "Get users by interests",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Access token",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
-                    },
                     {
                         "type": "integer",
                         "description": "Page number (starting from 1)",
@@ -425,6 +413,11 @@ const docTemplate = `{
         },
         "/profile/": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Returns profile info of specified user id. If not specified, returns profile info of user encoded in jwt",
                 "consumes": [
                     "application/json"
@@ -437,13 +430,6 @@ const docTemplate = `{
                 ],
                 "summary": "Get profile",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Access token",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
-                    },
                     {
                         "type": "integer",
                         "description": "User ID",
@@ -461,6 +447,11 @@ const docTemplate = `{
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Creates profile",
                 "consumes": [
                     "application/json"
@@ -473,13 +464,6 @@ const docTemplate = `{
                 ],
                 "summary": "Create profile",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Access token",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
-                    },
                     {
                         "description": "Profile Info",
                         "name": "profile_info",
@@ -503,6 +487,11 @@ const docTemplate = `{
                 }
             },
             "patch": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Partially updates profile information",
                 "consumes": [
                     "application/json"
@@ -515,13 +504,6 @@ const docTemplate = `{
                 ],
                 "summary": "Update profile",
                 "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Access token",
-                        "name": "token",
-                        "in": "query",
-                        "required": true
-                    },
                     {
                         "description": "Profile Info to update",
                         "name": "profile_info",
@@ -592,6 +574,17 @@ const docTemplate = `{
                 }
             }
         },
+        "models.RefreshRequest": {
+            "type": "object",
+            "required": [
+                "refresh_token"
+            ],
+            "properties": {
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
         "models.UpdateInterestsRequest": {
             "type": "object",
             "properties": {
@@ -636,6 +629,13 @@ const docTemplate = `{
                     "$ref": "#/definitions/models.Profile"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

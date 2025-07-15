@@ -31,6 +31,13 @@ definitions:
       user_id:
         type: integer
     type: object
+  models.RefreshRequest:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
   models.UpdateInterestsRequest:
     properties:
       interests:
@@ -73,12 +80,6 @@ paths:
       consumes:
       - application/json
       description: Validates token, and if it valid returns it's claims
-      parameters:
-      - description: Access token
-        in: query
-        name: token
-        required: true
-        type: string
       produces:
       - application/json
       responses:
@@ -88,6 +89,8 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Get token claims
       tags:
       - Authorization
@@ -126,10 +129,11 @@ paths:
       description: Refreshes access token using refresh token
       parameters:
       - description: Refresh Token
-        in: query
+        in: body
         name: refresh_token
         required: true
-        type: string
+        schema:
+          $ref: '#/definitions/models.RefreshRequest'
       produces:
       - application/json
       responses:
@@ -175,11 +179,6 @@ paths:
       description: Retrieves the avatar image for the specified user or the authenticated
         user if no user_id is provided.
       parameters:
-      - description: Access token
-        in: query
-        name: token
-        required: true
-        type: string
       - description: User ID
         in: query
         name: user_id
@@ -208,6 +207,8 @@ paths:
           description: Server error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get user avatar
       tags:
       - Avatar
@@ -217,11 +218,6 @@ paths:
       description: Updates the avatar image for the authenticated user. Supports JPEG
         and PNG files up to 2MB.
       parameters:
-      - description: JWT token for authentication
-        in: query
-        name: token
-        required: true
-        type: string
       - description: Avatar image file (JPEG or PNG)
         in: formData
         name: avatar
@@ -248,6 +244,8 @@ paths:
           description: Server error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Update user avatar
       tags:
       - Avatar
@@ -256,11 +254,6 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: Token
-        in: query
-        name: token
-        required: true
-        type: string
       - description: User ID
         in: query
         name: user_id
@@ -268,6 +261,8 @@ paths:
       produces:
       - application/json
       responses: {}
+      security:
+      - BearerAuth: []
       summary: Get user's interests
       tags:
       - Interests
@@ -275,11 +270,6 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: Access token
-        in: query
-        name: token
-        required: true
-        type: string
       - description: Interests to set
         in: body
         name: interests
@@ -289,6 +279,8 @@ paths:
       produces:
       - application/json
       responses: {}
+      security:
+      - BearerAuth: []
       summary: Update user's interests
       tags:
       - Interests
@@ -299,11 +291,6 @@ paths:
       description: Retrieves paginated users who have specified interests, along with
         their profiles and all interests
       parameters:
-      - description: Access token
-        in: query
-        name: token
-        required: true
-        type: string
       - description: Page number (starting from 1)
         in: query
         name: page_num
@@ -339,6 +326,8 @@ paths:
           description: Internal server error
           schema:
             $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
       summary: Get users by interests
       tags:
       - Interests
@@ -349,11 +338,6 @@ paths:
       description: Returns profile info of specified user id. If not specified, returns
         profile info of user encoded in jwt
       parameters:
-      - description: Access token
-        in: query
-        name: token
-        required: true
-        type: string
       - description: User ID
         in: query
         name: user_id
@@ -365,6 +349,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Profile'
+      security:
+      - BearerAuth: []
       summary: Get profile
       tags:
       - Profile
@@ -373,11 +359,6 @@ paths:
       - application/json
       description: Partially updates profile information
       parameters:
-      - description: Access token
-        in: query
-        name: token
-        required: true
-        type: string
       - description: Profile Info to update
         in: body
         name: profile_info
@@ -391,6 +372,8 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.Profile'
+      security:
+      - BearerAuth: []
       summary: Update profile
       tags:
       - Profile
@@ -399,11 +382,6 @@ paths:
       - application/json
       description: Creates profile
       parameters:
-      - description: Access token
-        in: query
-        name: token
-        required: true
-        type: string
       - description: Profile Info
         in: body
         name: profile_info
@@ -419,7 +397,14 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - BearerAuth: []
       summary: Create profile
       tags:
       - Profile
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

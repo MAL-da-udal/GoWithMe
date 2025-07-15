@@ -76,17 +76,19 @@ func Login(ctx *gin.Context) {
 // @Tags Authorization
 // @Accept json
 // @Produce json
-// @Param refresh_token query string true "Refresh Token"
+// @Param refresh_token body models.RefreshRequest true "Refresh Token"
 // @Success 200 {object} map[string]string
 // @Router /auth/refresh [post]
 func RefreshToken(ctx *gin.Context) {
-	refreshToken := ctx.Query("refresh_token")
-	if len(refreshToken) == 0 {
+
+	var refreshRequest models.RefreshRequest
+
+	if err := ctx.ShouldBindJSON(&refreshRequest); err != nil {
 		ctx.JSON(400, models.ErrorResponse{Details: "Refresh token is required"})
 		return
 	}
 
-	newAccessToken, err := services.RefreshAccessToken(refreshToken)
+	newAccessToken, err := services.RefreshAccessToken(refreshRequest.RefreshToken)
 	if err != nil {
 		if errors.Is(err, services.ErrInvalidRefreshToken) {
 			ctx.JSON(401, models.ErrorResponse{Details: err.Error()})
@@ -104,11 +106,12 @@ func RefreshToken(ctx *gin.Context) {
 // @Tags Authorization
 // @Accept json
 // @Produce json
-// @Param token query string true "Access token"
+// @Security BearerAuth
 // @Success 200 {object} map[string]string
 // @Router /auth/ [get]
 func GetTokenClaims(ctx *gin.Context) {
-	token := ctx.Query("token")
+	tokenParam, _ := ctx.Get("jwt")
+	token := tokenParam.(string)
 
 	if len(token) == 0 {
 		ctx.JSON(400, models.ErrorResponse{Details: services.ErrInvalidInput.Error()})
@@ -134,13 +137,14 @@ func GetTokenClaims(ctx *gin.Context) {
 // @Tags Profile
 // @Accept json
 // @Produce json
-// @Param token query string true "Access token"
+// @Security BearerAuth
 // @Param profile_info body models.Profile true "Profile Info"
 // @Success 200 {object} map[string]string
 // @Router /profile/ [post]
 func CreateProfile(ctx *gin.Context) {
 	var req models.Profile
-	token := ctx.Query("token")
+	tokenParam, _ := ctx.Get("jwt")
+	token := tokenParam.(string)
 
 	if len(token) == 0 {
 		ctx.JSON(400, models.ErrorResponse{Details: services.ErrInvalidInput.Error()})
@@ -194,12 +198,13 @@ func CreateProfile(ctx *gin.Context) {
 // @Tags Profile
 // @Accept json
 // @Produce json
-// @Param token query string true "Access token"
+// @Security BearerAuth
 // @Param user_id query int false "User ID"
 // @Success 200 {object} models.Profile
 // @Router /profile/ [get]
 func GetProfile(ctx *gin.Context) {
-	token := ctx.Query("token")
+	tokenParam, _ := ctx.Get("jwt")
+	token := tokenParam.(string)
 
 	if len(token) == 0 {
 		ctx.JSON(400, models.ErrorResponse{Details: services.ErrInvalidInput.Error()})
@@ -251,12 +256,13 @@ func GetProfile(ctx *gin.Context) {
 // @Tags Profile
 // @Accept json
 // @Produce json
-// @Param token query string true "Access token"
+// @Security BearerAuth
 // @Param profile_info body models.UpdateProfileRequest true "Profile Info to update"
 // @Success 200 {object} models.Profile
 // @Router /profile/ [patch]
 func UpdateProfile(ctx *gin.Context) {
-	token := ctx.Query("token")
+	tokenParam, _ := ctx.Get("jwt")
+	token := tokenParam.(string)
 
 	if len(token) == 0 {
 		ctx.JSON(400, models.ErrorResponse{Details: services.ErrInvalidInput.Error()})
@@ -298,11 +304,12 @@ func UpdateProfile(ctx *gin.Context) {
 // @Tags Interests
 // @Accept json
 // @Produce json
-// @Param token query string true "Access token"
+// @Security BearerAuth
 // @Param interests body models.UpdateInterestsRequest true "Interests to set"
 // @Router /interests/ [put]
 func UpdateInterests(ctx *gin.Context) {
-	token := ctx.Query("token")
+	tokenParam, _ := ctx.Get("jwt")
+	token := tokenParam.(string)
 
 	if len(token) == 0 {
 		ctx.JSON(400, models.ErrorResponse{Details: services.ErrInvalidInput.Error()})
@@ -344,11 +351,12 @@ func UpdateInterests(ctx *gin.Context) {
 // @Tags Interests
 // @Accept json
 // @Produce json
-// @Param token query string true "Token"
+// @Security BearerAuth
 // @Param user_id query int false "User ID"
 // @Router /interests/ [get]
 func GetInterests(ctx *gin.Context) {
-	token := ctx.Query("token")
+	tokenParam, _ := ctx.Get("jwt")
+	token := tokenParam.(string)
 
 	if len(token) == 0 {
 		ctx.JSON(400, models.ErrorResponse{Details: services.ErrInvalidInput.Error()})
@@ -397,7 +405,7 @@ func GetInterests(ctx *gin.Context) {
 // @Tags Interests
 // @Accept json
 // @Produce json
-// @Param token query string true "Access token"
+// @Security BearerAuth
 // @Param page_num query int true "Page number (starting from 1)"
 // @Param page_size query int false "Number of users per page" default(10)
 // @Param interests query string true "Semicolon-separated list of interest IDs (e.g., bicycle;swimming)"
@@ -408,7 +416,9 @@ func GetInterests(ctx *gin.Context) {
 // @Router /interests/all [get]
 func GetUsersByInterests(ctx *gin.Context) {
 	// Extract and validate token
-	token := ctx.Query("token")
+	tokenParam, _ := ctx.Get("jwt")
+	token := tokenParam.(string)
+
 	if len(token) == 0 {
 		ctx.JSON(400, models.ErrorResponse{Details: "Token is required"})
 		return
@@ -464,7 +474,7 @@ func GetUsersByInterests(ctx *gin.Context) {
 // @Tags Avatar
 // @Accept multipart/form-data
 // @Produce json
-// @Param token query string true "JWT token for authentication"
+// @Security BearerAuth
 // @Param avatar formData file true "Avatar image file (JPEG or PNG)"
 // @Success 200 {object} map[string]string "Avatar uploaded successfully"
 // @Failure 400 {object} models.ErrorResponse "Invalid input (e.g., file too large, wrong format)"
@@ -473,7 +483,9 @@ func GetUsersByInterests(ctx *gin.Context) {
 // @Router /avatar [put]
 func UpdateAvatar(ctx *gin.Context) {
 
-	token := ctx.Query("token")
+	tokenParam, _ := ctx.Get("jwt")
+	token := tokenParam.(string)
+
 	if len(token) == 0 {
 		ctx.JSON(400, models.ErrorResponse{Details: "Token is required"})
 		return
@@ -513,7 +525,7 @@ func UpdateAvatar(ctx *gin.Context) {
 // @Description Retrieves the avatar image for the specified user or the authenticated user if no user_id is provided.
 // @Tags Avatar
 // @Produce image/jpeg,image/png
-// @Param token query string true "Access token"
+// @Security BearerAuth
 // @Param user_id query int false "User ID"
 // @Success 200 {file} file "Image"
 // @Failure 400 {object} models.ErrorResponse "Invalid input"
@@ -523,7 +535,9 @@ func UpdateAvatar(ctx *gin.Context) {
 // @Router /avatar [get]
 func GetAvatar(ctx *gin.Context) {
 
-	token := ctx.Query("token")
+	tokenParam, _ := ctx.Get("jwt")
+	token := tokenParam.(string)
+
 	if len(token) == 0 {
 		ctx.JSON(400, models.ErrorResponse{Details: "Token is required"})
 		return
