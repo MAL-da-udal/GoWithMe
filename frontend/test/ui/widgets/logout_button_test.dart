@@ -4,17 +4,16 @@ import 'package:go_router/go_router.dart';
 import 'package:frontend/ui/widgets/logout_button.dart';
 
 void main() {
-  testWidgets('LogoutButton shows dialog and handles Да', (WidgetTester tester) async {
+  testWidgets('LogoutButton shows dialog and handles Да', (
+    WidgetTester tester,
+  ) async {
     final router = GoRouter(
       routes: [
         GoRoute(
           path: '/',
           builder: (context, state) => Scaffold(body: LogoutButton()),
         ),
-        GoRoute(
-          path: '/auth',
-          builder: (context, state) => const SizedBox(),
-        ),
+        GoRoute(path: '/auth', builder: (context, state) => const SizedBox()),
       ],
     );
     await tester.pumpWidget(MaterialApp.router(routerConfig: router));

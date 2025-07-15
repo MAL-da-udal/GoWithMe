@@ -4,23 +4,28 @@ import 'package:frontend/ui/widgets/icon_back.dart';
 import 'package:go_router/go_router.dart';
 
 void main() {
-  testWidgets('IconBack triggers callback if provided', (WidgetTester tester) async {
+  testWidgets('IconBack triggers callback if provided', (
+    WidgetTester tester,
+  ) async {
     bool tapped = false;
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(
-          body: IconBack(callback: () => tapped = true),
-        ),
+        home: Scaffold(body: IconBack(callback: () => tapped = true)),
       ),
     );
     await tester.tap(find.byType(IconButton));
     expect(tapped, true);
   });
 
-  testWidgets('IconBack navigates if callback is not provided', (WidgetTester tester) async {
+  testWidgets('IconBack navigates if callback is not provided', (
+    WidgetTester tester,
+  ) async {
     final router = GoRouter(
       routes: [
-        GoRoute(path: '/', builder: (context, state) => Scaffold(body: IconBack())),
+        GoRoute(
+          path: '/',
+          builder: (context, state) => Scaffold(body: IconBack()),
+        ),
         GoRoute(path: '/home', builder: (context, state) => const SizedBox()),
       ],
     );

@@ -59,4 +59,4 @@ void main() {
     final theme = await service.loadTheme();
     expect(theme, 'dark');
   });
-} 
+}
