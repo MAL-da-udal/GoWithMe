@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_with_me/domain/providers/theme_provider.dart';
-import 'package:go_with_me/router.dart';
-import 'package:go_with_me/ui/theme/app_theme.dart';
+import 'package:frontend/domain/providers/theme_provider.dart';
+import 'package:frontend/router.dart';
+import 'package:frontend/ui/theme/app_theme.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));

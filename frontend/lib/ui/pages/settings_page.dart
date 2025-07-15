@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_with_me/domain/providers/theme_provider.dart';
-import 'package:go_with_me/ui/widgets/icon_back.dart';
-import 'package:go_with_me/ui/widgets/logout_button.dart';
+import 'package:frontend/domain/providers/theme_provider.dart';
+import 'package:frontend/ui/widgets/icon_back.dart';
+import 'package:frontend/ui/widgets/logout_button.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});

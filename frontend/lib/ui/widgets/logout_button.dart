@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_with_me/domain/services/shared_preferences_service.dart';
+import 'package:frontend/domain/services/shared_preferences_service.dart';
 
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});

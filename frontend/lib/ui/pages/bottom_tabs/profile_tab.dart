@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_with_me/domain/services/shared_preferences_service.dart';
-import 'package:go_with_me/ui/widgets/custom_filter_chip.dart';
+import 'package:frontend/domain/services/shared_preferences_service.dart';
+import 'package:frontend/ui/widgets/custom_filter_chip.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileTab extends StatefulWidget {

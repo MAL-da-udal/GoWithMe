@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_with_me/data/functions/open_url.dart';
-import 'package:go_with_me/ui/widgets/custom_filter_chip.dart';
-import 'package:go_with_me/ui/widgets/icon_back.dart';
+import 'package:frontend/data/functions/open_url.dart';
+import 'package:frontend/ui/widgets/custom_filter_chip.dart';
+import 'package:frontend/ui/widgets/icon_back.dart';
 
 class UserProfilePage extends StatefulWidget {
   final String token;

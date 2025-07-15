@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_with_me/ui/pages/bottom_tabs/profile_tab.dart';
-import 'package:go_with_me/ui/pages/bottom_tabs/search_tab.dart';
-import 'package:go_with_me/ui/theme/app_colors.dart';
+import 'package:frontend/ui/pages/bottom_tabs/profile_tab.dart';
+import 'package:frontend/ui/pages/bottom_tabs/search_tab.dart';
+import 'package:frontend/ui/theme/app_colors.dart';
 
 class HomePage extends StatefulWidget {
   final String? index;

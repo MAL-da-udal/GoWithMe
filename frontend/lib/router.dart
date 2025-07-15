@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_with_me/ui/pages/auth_page.dart';
-import 'package:go_with_me/ui/pages/home_page.dart';
-import 'package:go_with_me/ui/pages/settings_page.dart';
-import 'package:go_with_me/ui/pages/splash_page.dart';
-import 'package:go_with_me/ui/pages/user_profile_page.dart';
+import 'package:frontend/ui/pages/auth_page.dart';
+import 'package:frontend/ui/pages/home_page.dart';
+import 'package:frontend/ui/pages/settings_page.dart';
+import 'package:frontend/ui/pages/splash_page.dart';
+import 'package:frontend/ui/pages/user_profile_page.dart';
 
 final router = GoRouter(
   initialLocation: '/',

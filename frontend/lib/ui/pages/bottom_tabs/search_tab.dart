@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_with_me/ui/widgets/custom_filter_chip.dart';
+import 'package:frontend/ui/widgets/custom_filter_chip.dart';
 
 class SearchTab extends StatefulWidget {
   const SearchTab({super.key});
