@@ -569,6 +569,9 @@ const docTemplate = `{
                 "surname": {
                     "type": "string"
                 },
+                "telegram": {
+                    "type": "string"
+                },
                 "user_id": {
                     "type": "integer"
                 }
