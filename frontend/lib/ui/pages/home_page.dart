@@ -22,7 +22,6 @@ class _HomePageState extends State<HomePage> {
     _pageController = PageController(initialPage: _currentIndex);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

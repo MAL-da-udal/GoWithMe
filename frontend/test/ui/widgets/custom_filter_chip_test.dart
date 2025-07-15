@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/ui/widgets/custom_filter_chip.dart';
 
 void main() {
-  testWidgets('CustomFilterChip toggles selection', (WidgetTester tester) async {
+  testWidgets('CustomFilterChip toggles selection', (
+    WidgetTester tester,
+  ) async {
     bool selected = false;
     await tester.pumpWidget(
       MaterialApp(
@@ -20,4 +22,4 @@ void main() {
     await tester.tap(find.text('Test'));
     // selected должен измениться, но из-за особенностей StatelessWidget это не проверить напрямую
   });
-} 
+}

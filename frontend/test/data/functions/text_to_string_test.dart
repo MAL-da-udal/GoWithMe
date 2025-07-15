@@ -14,4 +14,4 @@ void main() {
       expect(themeToString(ThemeMode.system), 'system');
     });
   });
-} 
+}

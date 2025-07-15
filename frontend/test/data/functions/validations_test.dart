@@ -27,13 +27,19 @@ void main() {
 
   group('validatePasswordConfirmation', () {
     test('returns error if passwords do not match', () {
-      expect(validatePasswordConfirmation(defaultPassword(), '654321'), 'Passwords do not match');
+      expect(
+        validatePasswordConfirmation(defaultPassword(), '654321'),
+        'Passwords do not match',
+      );
     });
     test('returns error if password is empty', () {
       expect(validatePasswordConfirmation('', ''), 'Please enter a password');
     });
     test('returns null if passwords match and not empty', () {
-      expect(validatePasswordConfirmation(defaultPassword(), defaultPassword()), null);
+      expect(
+        validatePasswordConfirmation(defaultPassword(), defaultPassword()),
+        null,
+      );
     });
   });
 }
