@@ -28,7 +28,7 @@ jobs:
       - name: Check formatting
         run: |
           cd frontend
-          flutter format --set-exit-if-changed .
+          dart format --set-exit-if-changed .
 
       - name: Run tests with coverage
         run: |
