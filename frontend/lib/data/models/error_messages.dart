@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:go_with_me/main.dart';
+import 'package:frontend/main.dart';
 
 const Map<int, String> defaultErrorMessages = {
   400: 'Некорректные данные. Проверьте введённую информацию.',

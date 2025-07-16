@@ -1,4 +1,4 @@
-import 'package:go_with_me/domain/services/app_services.dart';
+import 'package:frontend/domain/services/app_services.dart';
 
 import '../api/api_client.dart';
 

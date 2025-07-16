@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_with_me/data/functions/text_to_string.dart';
-import 'package:go_with_me/domain/services/shared_preferences_service.dart';
+import 'package:frontend/data/functions/text_to_string.dart';
+import 'package:frontend/domain/services/shared_preferences_service.dart';
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>(
   (ref) => ThemeNotifier(),

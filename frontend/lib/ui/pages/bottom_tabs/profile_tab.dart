@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_with_me/domain/services/app_services.dart';
-import 'package:go_with_me/domain/services/shared_preferences_service.dart';
-import 'package:go_with_me/ui/widgets/custom_filter_chip.dart';
+import 'package:frontend/domain/services/app_services.dart';
+import 'package:frontend/domain/services/shared_preferences_service.dart';
+import 'package:frontend/ui/widgets/custom_filter_chip.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileTab extends StatefulWidget {
@@ -85,10 +85,8 @@ class _ProfileTabState extends State<ProfileTab> {
     }
 
     try {
-
       final fresh = await profileRepository.fetchAvatar(null);
       setState(() => _avatarBytes = fresh);
-
     } on DioException catch (e) {
       if (e.response?.statusCode != 404) {
         rethrow;

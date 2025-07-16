@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_with_me/data/functions/open_url.dart';
-import 'package:go_with_me/domain/providers/search_provider.dart';
-import 'package:go_with_me/ui/widgets/custom_filter_chip.dart';
-import 'package:go_with_me/ui/widgets/gender_icon.dart';
-import 'package:go_with_me/ui/widgets/icon_back.dart';
+import 'package:frontend/data/functions/open_url.dart';
+import 'package:frontend/domain/providers/search_provider.dart';
+import 'package:frontend/ui/widgets/custom_filter_chip.dart';
+import 'package:frontend/ui/widgets/gender_icon.dart';
+import 'package:frontend/ui/widgets/icon_back.dart';
 
 class UserProfilePage extends ConsumerStatefulWidget {
   final String token;

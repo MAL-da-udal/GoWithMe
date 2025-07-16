@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_with_me/data/enums/get_storage_key.dart';
-import 'package:go_with_me/domain/services/app_services.dart';
+import 'package:frontend/data/enums/get_storage_key.dart';
+import 'package:frontend/domain/services/app_services.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
