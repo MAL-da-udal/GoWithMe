@@ -8,8 +8,6 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: always
-    networks:
-      - gowithme-net
 
   backend:
     build: ./backend/
@@ -32,12 +30,6 @@ services:
       - "8080:80"
     depends_on:
       - backend
-    networks:
-      - gowithme-net
-
-networks:
-  gowithme-net:
-    driver: bridge
 
 volumes:
   pgdata:
