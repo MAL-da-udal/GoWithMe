@@ -8,7 +8,6 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-
   test('saveAvatar and loadAvatar', () async {
     final service = SharedPreferencesService();
     final bytes = Uint8List.fromList([1, 2, 3, 4]);
