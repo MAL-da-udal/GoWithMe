@@ -116,14 +116,26 @@ go test ./...
 
 ## API Documentation
 
-All documentation can be found in swagger. You can access it on <backend-url>:8080/swagger/index.html
+All documentation can be found in swagger. You can access it on backend-url:8080/swagger/index.html
 
 ---
 
 ## Architecture
 
 ### Backend
-TODO
+![Backend Arch](./images/backend-arch.png)
+
+#### Stack Overview
+
+* **HTTP Server framework:** gin
+* **Database ORM:** gorm
+* **Database:** PostgreSQL
+
+### Key features
+- JWT Authentication and authorization
+- gORM for convenient communication with Database
+- Gin framework to organize RESTful API
+- Swagger for documentation
 
 ### Frontend Architecture
 
