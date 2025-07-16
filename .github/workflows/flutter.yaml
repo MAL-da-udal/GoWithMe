@@ -55,6 +55,11 @@ jobs:
       - name: Static analysis
         run: flutter analyze --no-fatal-warnings --no-fatal-infos
 
+      - name: Lint (flutter analyze)
+        run: |
+          cd frontend
+          flutter analyze
+
       - name: Build web
         run: |
           cd frontend
