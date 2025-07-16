@@ -411,6 +411,26 @@ const docTemplate = `{
                 }
             }
         },
+        "/interests/cats": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Interests"
+                ],
+                "summary": "Get existing interests",
+                "responses": {}
+            }
+        },
         "/profile/": {
             "get": {
                 "security": [
@@ -569,6 +589,9 @@ const docTemplate = `{
                 "surname": {
                     "type": "string"
                 },
+                "telegram": {
+                    "type": "string"
+                },
                 "user_id": {
                     "type": "integer"
                 }
@@ -612,6 +635,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "surname": {
+                    "type": "string"
+                },
+                "telegram": {
                     "type": "string"
                 }
             }

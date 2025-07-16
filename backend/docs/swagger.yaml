@@ -28,6 +28,8 @@ definitions:
         type: string
       surname:
         type: string
+      telegram:
+        type: string
       user_id:
         type: integer
     type: object
@@ -56,6 +58,8 @@ definitions:
       name:
         type: string
       surname:
+        type: string
+      telegram:
         type: string
     type: object
   models.UserProfileWithInterests:
@@ -329,6 +333,18 @@ paths:
       security:
       - BearerAuth: []
       summary: Get users by interests
+      tags:
+      - Interests
+  /interests/cats:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get existing interests
       tags:
       - Interests
   /profile/:

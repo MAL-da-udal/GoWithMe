@@ -25,6 +25,47 @@ type Config struct {
 
 var AppConfig Config
 
+func CreateInterests() {
+	interests := []string{
+		"swimming",
+		"cycling",
+		"football",
+		"basketball",
+		"tennis",
+		"running",
+		"yoga",
+		"golf",
+		"skiing",
+		"surfing",
+		"hiking",
+		"climbing",
+		"kayaking",
+		"fishing",
+		"horse riding",
+		"nature walks",
+		"beach walks",
+		"dog walking",
+		"photography walks",
+		"bird watching",
+		"fitness",
+		"weightlifting",
+		"crossfit",
+		"pilates",
+		"dancing",
+		"skateboarding",
+		"snowboarding",
+		"paragliding",
+		"diving",
+		"martial arts",
+	}
+
+	AppConfig.Interest.Interests = make(map[string]struct{}, 2)
+
+	for _, interest := range interests {
+		AppConfig.Interest.Interests[interest] = struct{}{}
+	}
+}
+
 func Load() {
 	AppConfig.Database.User = os.Getenv("POSTGRES_USER")
 	AppConfig.Database.Password = os.Getenv("POSTGRES_PASSWORD")
@@ -32,9 +73,7 @@ func Load() {
 
 	AppConfig.JWT.SecretKey = os.Getenv("SECRET_KEY")
 
-	AppConfig.Interest.Interests = make(map[string]struct{}, 2)
-	AppConfig.Interest.Interests["bicycle"] = struct{}{}
-	AppConfig.Interest.Interests["swimming"] = struct{}{}
+	CreateInterests()
 
 	AppConfig.Avatars.UploadDir = "./uploads/avatars"
 	AppConfig.Avatars.MaxFileSize = 2 * 1024 * 1024

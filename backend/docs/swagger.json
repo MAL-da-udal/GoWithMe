@@ -403,6 +403,26 @@
                 }
             }
         },
+        "/interests/cats": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Interests"
+                ],
+                "summary": "Get existing interests",
+                "responses": {}
+            }
+        },
         "/profile/": {
             "get": {
                 "security": [
@@ -561,6 +581,9 @@
                 "surname": {
                     "type": "string"
                 },
+                "telegram": {
+                    "type": "string"
+                },
                 "user_id": {
                     "type": "integer"
                 }
@@ -604,6 +627,9 @@
                     "type": "string"
                 },
                 "surname": {
+                    "type": "string"
+                },
+                "telegram": {
                     "type": "string"
                 }
             }

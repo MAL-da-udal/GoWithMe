@@ -128,3 +128,13 @@ func GetUsersByInterests(pageNum int, interests []string, pageSize int) (*models
 
 	return response, nil
 }
+
+func GetAllInterests() []string {
+	ret := make([]string, 0, len(config.AppConfig.Interest.Interests))
+
+	for interest := range config.AppConfig.Interest.Interests {
+		ret = append(ret, interest)
+	}
+
+	return ret
+}
