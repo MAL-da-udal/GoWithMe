@@ -29,4 +29,3 @@ void main() {
     expect(() => openUrl('https://example.com'), throwsException);
   });
 }
- 
