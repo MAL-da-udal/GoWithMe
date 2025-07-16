@@ -3,7 +3,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:frontend/data/enums/get_storage_key.dart';
 import 'package:frontend/data/functions/show_api_error.dart';
 
-
 final baseUrl = "http://mhdserver.ru:8080";
 
 class ApiClient {
