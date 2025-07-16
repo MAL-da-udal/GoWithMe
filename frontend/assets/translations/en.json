@@ -1,0 +1,92 @@
+{
+    "profile": {
+        "title": "Profile",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "age": "Age",
+        "telegram": "Telegram",
+        "description": "Description",
+        "save": "Save",
+        "genderFemale": "F",
+        "genderMale": "M",
+        "updateSuccess": "Profile updated",
+        "chooseAvatar": "Upload photo",
+        "activities": "Activities"
+    },
+    "settings": {
+        "settings": "Settings",
+        "language": "Language",
+        "russian": "Russian",
+        "english": "English",
+        "theme": "Theme",
+        "system": "System",
+        "dark": "Dark",
+        "light": "Light"
+    },
+    "search": {
+        "find": "Find",
+        "notFound": "No users found"
+    },
+    "home": {
+        "search": "Search",
+        "profile": "Profile",
+        "searchTitle": "Find a Companion"
+    },
+    "auth": {
+        "login": "Login",
+        "register": "Register",
+        "password": "Password",
+        "confirmPassword": "Retry password",
+        "error": "An error occurred"
+    },
+    "userProfile": {
+        "title": "Profile",
+        "yearsOld": "years old",
+        "interests": "Interests",
+        "messageOnTelegram": "Message on Telegram"
+    },
+    "errors": {
+        "400": "Invalid data. Please check your input.",
+        "401": "Authorization failed. Please log in again.",
+        "403": "You do not have access to this resource.",
+        "404": "Data not found.",
+        "409": "This user already exists.",
+        "500": "Internal server error. Please try again later.",
+        "502": "Server issues. Please try again later.",
+        "503": "Server temporarily unavailable.",
+        "default": "An error occurred. Please try again."
+    },
+    "interests": {
+        "swimming": "Swimming",
+        "cycling": "Cycling",
+        "football": "Football",
+        "basketball": "Basketball",
+        "tennis": "Tennis",
+        "running": "Running",
+        "yoga": "Yoga",
+        "golf": "Golf",
+        "skiing": "Skiing",
+        "surfing": "Surfing",
+        "hiking": "Hiking",
+        "climbing": "Climbing",
+        "kayaking": "Kayaking",
+        "fishing": "Fishing",
+        "horse riding": "Horse Riding",
+        "nature walks": "Nature Walks",
+        "beach walks": "Beach Walks",
+        "dog walking": "Dog Walking",
+        "photography walks": "Photography Walks",
+        "bird watching": "Bird Watching",
+        "fitness": "Fitness",
+        "weightlifting": "Weightlifting",
+        "crossfit": "CrossFit",
+        "pilates": "Pilates",
+        "dancing": "Dancing",
+        "skateboarding": "Skateboarding",
+        "snowboarding": "Snowboarding",
+        "paragliding": "Paragliding",
+        "diving": "Diving",
+        "martial arts": "Martial Arts",
+        "healthy food": "Healthy food"
+    }
+}

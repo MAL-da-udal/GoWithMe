@@ -9,8 +9,8 @@ class SearchRepository {
   SearchRepository(this.apiClient, this.prefs);
 
   Future<List<String>> getInterestCategories() async {
-    // final response = await apiClient.dio.get('/interests/cats');
-    final data = ['bicycle', 'swimming'];
+    final response = await apiClient.dio.get('/interests/cats');
+    final data = response.data['details'];
     return List<String>.from(data);
   }
 

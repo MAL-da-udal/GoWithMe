@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:frontend/data/enums/get_storage_key.dart';
-import 'package:frontend/data/models/error_messages.dart';
-import 'package:frontend/main.dart';
+import 'package:frontend/data/functions/show_api_error.dart';
+
+
+final baseUrl = "http://mhdserver.ru:8080";
 
 class ApiClient {
   final GetStorage storage = GetStorage();
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: 'http://127.0.0.1:8000/',
+      baseUrl: baseUrl,
       connectTimeout: const Duration(seconds: 60),
       receiveTimeout: const Duration(seconds: 60),
       contentType: 'application/json',
@@ -40,36 +41,12 @@ class ApiClient {
               );
               dio.options.headers['Authorization'] = "Bearer $newAccessToken";
               return handler.resolve(await dio.fetch(e.requestOptions));
+            } else {
+              storage.erase();
             }
           }
           if (!suppressNotification) {
-            final statusCode = e.response?.statusCode;
-            final data = e.response?.data;
-
-            String? serverMessage;
-
-            if (data is Map<String, dynamic>) {
-              serverMessage = data['details'] ?? data['detail'];
-            }
-
-            final fallback = 'Произошла ошибка. Попробуйте позже.';
-            final message =
-                serverMessage?.toString() ??
-                defaultErrorMessages[statusCode] ??
-                fallback;
-
-            final messenger = rootScaffoldMessengerKey.currentState;
-            messenger?.clearSnackBars();
-            messenger?.showSnackBar(
-              SnackBar(
-                content: Text(
-                  "❌ $message",
-                  style: const TextStyle(color: Colors.white),
-                ),
-                backgroundColor: Colors.red,
-                duration: const Duration(seconds: 4),
-              ),
-            );
+            showApiError(e);
           }
           return handler.next(e);
         },
