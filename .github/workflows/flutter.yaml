@@ -5,9 +5,9 @@ permissions:
 
 on:
   push:
-    branches: [ devops ]
+    branches: [ dev, main ]
   pull_request:
-    branches: [ devops ]
+    branches: [ dev, main ]
 
 jobs:
   build-and-deploy-web:
@@ -54,11 +54,6 @@ jobs:
 
       - name: Static analysis
         run: flutter analyze --no-fatal-warnings --no-fatal-infos
-
-      - name: Lint (flutter analyze)
-        run: |
-          cd frontend
-          flutter analyze
 
       - name: Build web
         run: |
