@@ -61,6 +61,7 @@ func Setup() *gin.Engine {
 		interests.PUT("/", api.UpdateInterests)
 		interests.GET("/", api.GetInterests)
 		interests.GET("/all", api.GetUsersByInterests)
+		interests.GET("/cats", api.GetAllInterests)
 	}
 
 	{

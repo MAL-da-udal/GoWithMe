@@ -173,6 +173,7 @@ func CreateProfile(ctx *gin.Context) {
 		Surname:     req.Surname,
 		Age:         req.Age,
 		Gender:      req.Gender,
+		Telegram:    req.Telegram,
 		Description: req.Description,
 	}
 
@@ -394,6 +395,39 @@ func GetInterests(ctx *gin.Context) {
 		ctx.JSON(500, models.ErrorResponse{Details: err.Error()})
 		return
 	}
+
+	ctx.JSON(200, map[string]interface{}{
+		"details": interests,
+	})
+}
+
+// @Summary Get existing interests
+// @Tags Interests
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Router /interests/cats [get]
+func GetAllInterests(ctx *gin.Context) {
+	tokenParam, _ := ctx.Get("jwt")
+	token := tokenParam.(string)
+
+	if len(token) == 0 {
+		ctx.JSON(400, models.ErrorResponse{Details: services.ErrInvalidInput.Error()})
+		return
+	}
+
+	_, err := services.GetTokenClaims(token)
+	if err != nil {
+		if errors.Is(err, services.ErrInvalidToken) {
+			ctx.JSON(401, models.ErrorResponse{Details: err.Error()})
+			return
+		} else {
+			ctx.JSON(500, models.ErrorResponse{Details: err.Error()})
+			return
+		}
+	}
+
+	interests := services.GetAllInterests()
 
 	ctx.JSON(200, map[string]interface{}{
 		"details": interests,

@@ -16,5 +16,6 @@ type UpdateProfileRequest struct {
 	Surname     *string `json:"surname"`
 	Age         *int    `json:"age"`
 	Gender      *string `json:"gender"`
+	Telegram    *string `json:"telegram"`
 	Description *string `json:"description"`
 }
