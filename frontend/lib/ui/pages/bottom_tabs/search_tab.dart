@@ -29,7 +29,7 @@ class _SearchTabState extends ConsumerState<SearchTab> {
   Future<void> _searchUsers() async {
     final selected = ref.watch(searchProvider).selected;
     final users = await searchRepository.searchUsersByInterests(selected);
-    ref.read(searchProvider).setUsers(users);
+    await ref.read(searchProvider).setUsers(users);
     ref.read(searchProvider).search();
   }
 
@@ -74,7 +74,14 @@ class _SearchTabState extends ConsumerState<SearchTab> {
                 final user = users[index];
                 return Card(
                   child: ListTile(
-                    leading: CircleAvatar(child: Icon(Icons.person)),
+                    leading: CircleAvatar(
+                      backgroundImage: user.avatarBytes != null
+                          ? MemoryImage(user.avatarBytes!)
+                          : null,
+                      child: user.avatarBytes == null
+                          ? Icon(Icons.person)
+                          : null,
+                    ),
                     title: Row(
                       children: [
                         Text('${user.name}, ${user.age}'),
@@ -83,7 +90,10 @@ class _SearchTabState extends ConsumerState<SearchTab> {
                       ],
                     ),
                     subtitle: Text(user.interests.join(', ')),
-                    onTap: () => context.push('/profile/${user.id}'),
+                    onTap: () {
+                      ref.read(searchProvider).setCurrentUser(user);
+                      context.push('/profile/${user.id}');
+                    },
                   ),
                 );
               },

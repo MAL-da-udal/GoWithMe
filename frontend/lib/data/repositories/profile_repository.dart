@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:dio/dio.dart';
 import 'package:go_with_me/data/api/api_client.dart';
 import 'package:go_with_me/domain/services/shared_preferences_service.dart';
 
@@ -90,5 +93,30 @@ class ProfileRepository {
   Future<void> updateUserInterests(List<String> interests) async {
     final body = {'interests': interests};
     await apiClient.dio.put('/interests/', data: body);
+  }
+
+  Future<void> uploadAvatar(Uint8List bytes) async {
+    if (bytes.length > 2 * 1024 * 1024) {
+      throw Exception('Avatar file is too large');
+    }
+    final formData = FormData.fromMap({
+      'avatar': MultipartFile.fromBytes(bytes, filename: 'image.png'),
+    });
+
+    await apiClient.dio.put('/avatar/', data: formData);
+
+    await SharedPreferencesService().saveAvatar(bytes);
+  }
+
+  Future<Uint8List?> fetchAvatar(int? userId) async {
+    final response = await apiClient.dio.get<List<int>>(
+      '/avatar',
+      queryParameters: {'user_id': userId},
+      options: Options(responseType: ResponseType.bytes),
+    );
+
+    final bytes = Uint8List.fromList(response.data!);
+    await SharedPreferencesService().saveAvatar(bytes);
+    return bytes;
   }
 }

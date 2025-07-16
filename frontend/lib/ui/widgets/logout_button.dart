@@ -25,6 +25,7 @@ class LogoutButton extends ConsumerWidget {
                 onPressed: () async {
                   await apiClient.clearTokens();
                   ref.read(searchProvider).resetAll();
+                  sharedPreferences.clearProfile();
                   if (context.mounted) context.go('/auth');
                 },
                 child: Text('Да'),

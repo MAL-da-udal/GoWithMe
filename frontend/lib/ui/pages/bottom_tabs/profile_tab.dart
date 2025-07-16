@@ -70,15 +70,18 @@ class _ProfileTabState extends State<ProfileTab> {
     if (image != null) {
       final bytes = await image.readAsBytes();
       setState(() => _avatarBytes = bytes);
-      _prefsService.saveAvatar(bytes);
+      await profileRepository.uploadAvatar(bytes);
     }
   }
 
   Future<void> _loadAvatar() async {
-    final avatar = await _prefsService.loadAvatar();
-    if (avatar != null) {
-      setState(() => _avatarBytes = avatar);
-    }
+    final local = await _prefsService.loadAvatar();
+    setState(() => _avatarBytes = local);
+
+    try {
+      final fresh = await profileRepository.fetchAvatar(null);
+      setState(() => _avatarBytes = fresh);
+    } catch (_) {}
   }
 
   @override
@@ -118,18 +121,18 @@ class _ProfileTabState extends State<ProfileTab> {
                   controller: nameController,
                   decoration: InputDecoration(labelText: 'Имя'),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
                 TextField(
                   controller: surnameController,
                   decoration: InputDecoration(labelText: 'Фамилия'),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
                 TextField(
                   controller: ageController,
                   decoration: InputDecoration(labelText: 'Возраст'),
                   keyboardType: TextInputType.number,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 15),
                 TextField(
                   controller: aliasController,
                   decoration: InputDecoration(

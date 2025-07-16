@@ -12,6 +12,7 @@ class SharedPreferencesService {
   static const _genderKey = 'gender';
   static const _descriptionKey = 'description';
   static const _activitiesKey = 'activities';
+  static const _idKey = 'id';
 
   Future<void> saveAvatar(Uint8List bytes) async {
     final prefs = await SharedPreferences.getInstance();
@@ -73,6 +74,7 @@ class SharedPreferencesService {
     await prefs.remove(_descriptionKey);
     await prefs.remove(_activitiesKey);
     await prefs.remove(_avatarKey);
+    await prefs.remove(_idKey);
   }
 
   Future<String?> loadTheme() async {
@@ -87,11 +89,11 @@ class SharedPreferencesService {
 
   Future<void> saveId(int id) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('id', id);
+    await prefs.setInt(_idKey, id);
   }
 
   Future<int?> loadId() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('id');
+    return prefs.getInt(_idKey);
   }
 }

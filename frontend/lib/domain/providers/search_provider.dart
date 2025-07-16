@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_with_me/data/models/user.dart';
+import 'package:go_with_me/domain/services/app_services.dart';
 
 final searchProvider = ChangeNotifierProvider<SearchProvider>(
   (ref) => SearchProvider(),
@@ -11,6 +12,7 @@ class SearchProvider extends ChangeNotifier {
   List<String> selected = [];
   List<User> users = [];
   bool isSearched = false;
+  User? currentUser;
 
   void search() {
     isSearched = true;
@@ -40,8 +42,9 @@ class SearchProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setUsers(List<User> newUsers) {
+  Future<void> setUsers(List<User> newUsers) async {
     users = newUsers;
+    await updateUserAvatars();
     notifyListeners();
   }
 
@@ -50,5 +53,20 @@ class SearchProvider extends ChangeNotifier {
     selected = [];
     users = [];
     isSearched = false;
+  }
+
+  void setCurrentUser(User newUser) {
+    currentUser = newUser;
+    notifyListeners();
+  }
+
+  Future<void> updateUserAvatars() async {
+    for (final user in users) {
+      try {
+        final bytes = await profileRepository.fetchAvatar(user.id);
+        user.avatarBytes = bytes;
+      } catch (_) {}
+    }
+    notifyListeners();
   }
 }
