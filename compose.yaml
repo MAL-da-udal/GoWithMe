@@ -38,3 +38,6 @@ services:
 networks:
   gowithme-net:
     driver: bridge
+
+volumes:
+  pgdata:
