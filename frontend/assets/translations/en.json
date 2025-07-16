@@ -88,5 +88,12 @@
         "diving": "Diving",
         "martial arts": "Martial Arts",
         "healthy food": "Healthy food"
+    },
+    "logout": {
+        "button": "Log out",
+        "title": "Log out",
+        "confirm": "Are you sure you want to log out?",
+        "yes": "Yes",
+        "no": "No"
     }
 }

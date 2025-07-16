@@ -31,7 +31,7 @@ void main() {
     expect(profile['name'], 'John');
     expect(profile['surname'], 'Doe');
     expect(profile['age'], '30');
-    expect(profile['alias'], 'jdoe');
+    expect(profile['telegram'], 'jdoe');
     expect(profile['gender'], 'M');
     expect(profile['description'], 'desc');
     expect(profile['activities'], contains('run'));

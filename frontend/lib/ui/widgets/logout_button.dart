@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:frontend/domain/providers/search_provider.dart';
 import 'package:frontend/domain/services/app_services.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LogoutButton extends ConsumerWidget {
   const LogoutButton({super.key});
@@ -14,12 +15,12 @@ class LogoutButton extends ConsumerWidget {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Выход'),
-            content: Text('Вы уверены, что хотите выйти?'),
+            title: Text('logout.title'.tr()),
+            content: Text('logout.confirm'.tr()),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('Нет'),
+                child: Text('logout.no'.tr()),
               ),
               TextButton(
                 onPressed: () async {
@@ -28,14 +29,14 @@ class LogoutButton extends ConsumerWidget {
                   await sharedPreferences.clearProfile();
                   if (context.mounted) context.go('/auth');
                 },
-                child: Text('Да'),
+                child: Text('logout.yes'.tr()),
               ),
             ],
           ),
         );
       },
       child: Text(
-        "Выйти",
+        "logout.button".tr(),
         style: Theme.of(
           context,
         ).textTheme.bodyLarge?.copyWith(color: Colors.red, fontSize: 20),
