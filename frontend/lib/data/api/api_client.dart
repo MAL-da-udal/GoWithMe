@@ -4,6 +4,7 @@ import 'package:frontend/data/enums/get_storage_key.dart';
 import 'package:frontend/data/functions/show_api_error.dart';
 
 final baseUrl = "http://mhdserver.ru:8081";
+// final baseUrl = "http://127.0.0.1:8081/"
 
 class ApiClient {
   final GetStorage storage = GetStorage();

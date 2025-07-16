@@ -76,6 +76,7 @@ class SharedPreferencesService {
     await prefs.remove(_activitiesKey);
     await prefs.remove(_avatarKey);
     await prefs.remove(_idKey);
+    prefs.clear();
   }
 
   Future<String?> loadTheme() async {

@@ -20,11 +20,10 @@
 ### Technical requirements (20 points)
 #### Backend development (8 points)
 - [3] Go-based backend (3 points)
-- [1] RESTful API with Swagger documentation (1 point)
-- [1] gRPC implementation for communication between microservices (1 point)
-- [1] PostgreSQL database with proper schema design (1 point)
-- [1] JWT-based authentication and authorization (1 point)
-- [1] Comprehensive unit and integration tests (1 point)
+- [2] RESTful API with Swagger documentation (2 point)  [- api](https://github.com/MAL-da-udal/GoWithMe/blob/dev/backend/internal/api/handlers.go) and [docs](https://github.com/MAL-da-udal/GoWithMe/tree/dev/backend/docs) 
+- [1] PostgreSQL database with proper schema design (1 point) [- db](https://github.com/MAL-da-udal/GoWithMe/tree/dev/backend/internal/db)
+- [1] JWT-based authentication and authorization (1 point) [- jwt](https://github.com/MAL-da-udal/GoWithMe/blob/dev/backend/internal/api/handlers.go)
+- [1] Comprehensive unit and integration tests (1 point) [- tests][https://github.com/MAL-da-udal/GoWithMe/blob/dev/backend/internal/api/api_test.go]
 
 #### Frontend development (8 points)
 - [3] Flutter-based cross-platform application (mobile + web) (3 points)  
@@ -38,7 +37,7 @@ all app
 #### DevOps & deployment (4 points)
 - [1] Docker compose for all services (1 point) [- here](https://github.com/MAL-da-udal/GoWithMe/blob/dev/compose.yaml)
 - [1] CI/CD pipeline implementation (1 point) [- here](https://github.com/MAL-da-udal/GoWithMe/tree/dev/.github/workflows)
-- [1] Environment configuration management using config files (1 point)
+- [0] Environment configuration management using config files (1 point)
 - [1] GitHub pages for the project (1 point) [- gh-pages](https://mal-da-udal.github.io/GoWithMe/)
 
 ### Non-Technical Requirements (10 points)
@@ -66,7 +65,7 @@ all app
 - [3] Advanced animations and transitions (up to 3 points) [- custom transitions via go_router](https://github.com/MAL-da-udal/GoWithMe/pull/25/commits/bd9105f3eb86d3b883eb2aca849dcc2a5669ba45)
 - [2] Widget implementation for native mobile elements (up to 2 points) [- settings page](https://github.com/MAL-da-udal/GoWithMe/blob/dev/frontend/lib/ui/pages/settings_page.dart)
 
-Total points implemented: 30/30 (excluding bonus points)
+Total points implemented: 29/30 (excluding bonus points)
 
 ---
 
@@ -105,15 +104,19 @@ docker compose up --build
 
 ### Development Mode (for development)
 
-If you want to run and develop services separately (for example, for hot reload):
+If you want to run and update services separately:
 
 #### Frontend
 
 ```sh
 cd frontend
 flutter pub get
-flutter run -d chrome
+flutter run 
 ```
+Then choose the device on which you want to run
+
+> Important note: now the frontend connected to the API of the deployed server , so if you want to use your local mashine as a server: - change the baseUrl ( uncomment the line 7 and comment the line 6 in the file `frontend/lib/data/api/api_client.dart`)
+
 
 #### Backend
 
@@ -145,15 +148,13 @@ cd backend
 go test ./...
 ```
 
----
-
-**Recommendation:** For most users and for deployment, use Docker Compose. Flutter and Go are only required for local development.
 
 ---
 
 ## API Documentation
 
-All documentation can be found in swagger. You can access it on <backend-url>:8080/swagger/index.html
+All documentation can be found in swagger. You can access it on `http://mhdserver.ru:8080/swagger/index.html`
+
 
 ---
 
@@ -179,7 +180,7 @@ All documentation can be found in swagger. You can access it on <backend-url>:80
 #### Stack Overview
 
 * **State Management:** Flutter_riverpod
-* **HTTP Client:** Dio with custom `ApiClient`
+* **HTTP Client:** Dio handle errors and refresh auth token automatically
 * **Storage:** GetStorage for auth/refresh tokens and shared_prefs for other data
 * **Routing**: GoRouter with custom tranistions
 * **Cross-platform**: supports all platform with specific settings customization 
@@ -282,33 +283,19 @@ Full app structure
 
 ## Screenshots & GIFs
 
-Full video you could see [here](https://drive.google.com/drive/folders/16_uYnuXlzk4iJTm0Z0DVk7sfJwKf0gUK?usp=sharing)
+Full demo you could see [here](https://drive.google.com/drive/folders/16_uYnuXlzk4iJTm0Z0DVk7sfJwKf0gUK?usp=sharing)
 
 ### Login screen
 ![login](./images/login.png)
 
-### Error handle during login
-![login](./images/error_handle.png)
-
-### User's input errors hangle during register
-![login](./images/input_errors.png)
-
 ### Profile screen
 ![profile](./images/profile.png)
 
+### Search
+![settings](./images/search.png)
 ### Settings
 ![settings](./images/settings.png)
 
-#### Change theme
-![theme](./images/settings_white.png)
-
-### Change language
-
-![lang](./images/settings_english.png)
-
-### Load search
-
-![search](./images/load_search.png)
 ---
 
 ## Links
@@ -316,5 +303,5 @@ Full video you could see [here](https://drive.google.com/drive/folders/16_uYnuXl
 - **GitHub Organization:** [MAL-da-udal](https://github.com/MAL-da-udal)
 - **Repository:** [GoWithMe](https://github.com/MAL-da-udal/GoWithMe)
 - **GitHub Pages (Web Demo):** https://mal-da-udal.github.io/GoWithMe/
-- **Presentation video:** [(add link)](https://drive.google.com/drive/folders/1j5W5sts8wRprbJZcj3uxYzcqmFJFDfAl?usp=sharing)
+- **Presentation video:** https://drive.google.com/drive/folders/16_uYnuXlzk4iJTm0Z0DVk7sfJwKf0gUK?usp=sharing
 - **Project board:** https://github.com/orgs/MAL-da-udal/projects/5

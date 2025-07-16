@@ -34,6 +34,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       scaffoldMessengerKey: rootScaffoldMessengerKey,
+      debugShowCheckedModeBanner: false,
 
       routerConfig: router,
       theme: AppTheme.light,
