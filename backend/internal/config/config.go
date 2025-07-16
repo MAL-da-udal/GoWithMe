@@ -57,6 +57,7 @@ func CreateInterests() {
 		"paragliding",
 		"diving",
 		"martial arts",
+		"healthy food",
 	}
 
 	AppConfig.Interest.Interests = make(map[string]struct{}, 2)
