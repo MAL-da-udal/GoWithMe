@@ -160,7 +160,19 @@ All documentation can be found in swagger. You can access it on <backend-url>:80
 ## Architecture
 
 ### Backend
-TODO
+![Backend Arch](./images/backend-arch.png)
+
+#### Stack Overview
+
+* **HTTP Server framework:** gin
+* **Database ORM:** gorm
+* **Database:** PostgreSQL
+
+### Key features
+- JWT Authentication and authorization
+- gORM for convenient communication with Database
+- Gin framework to organize RESTful API
+- Swagger for documentation
 
 ### Frontend Architecture
 
@@ -270,6 +282,33 @@ Full app structure
 
 ## Screenshots & GIFs
 
+Full video you could see [here](https://drive.google.com/drive/folders/16_uYnuXlzk4iJTm0Z0DVk7sfJwKf0gUK?usp=sharing)
+
+### Login screen
+![login](./images/login.png)
+
+### Error handle during login
+![login](./images/error_handle.png)
+
+### User's input errors hangle during register
+![login](./images/input_errors.png)
+
+### Profile screen
+![profile](./images/profile.png)
+
+### Settings
+![settings](./images/settings.png)
+
+#### Change theme
+![theme](./images/settings_white.png)
+
+### Change language
+
+![lang](./images/settings_english.png)
+
+### Load search
+
+![search](./images/load_search.png)
 ---
 
 ## Links

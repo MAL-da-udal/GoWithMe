@@ -7,7 +7,7 @@ import 'package:frontend/ui/pages/splash_page.dart';
 import 'package:frontend/ui/pages/user_profile_page.dart';
 
 final router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/home',
 
   routes: [
     GoRoute(path: '/', builder: (context, state) => const SplashPage()),
