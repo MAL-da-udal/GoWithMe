@@ -133,5 +133,5 @@ go test ./...
 - **GitHub Organization:** [MAL-da-udal](https://github.com/MAL-da-udal)
 - **Repository:** [GoWithMe](https://github.com/MAL-da-udal/GoWithMe)
 - **GitHub Pages (Web Demo):** https://mal-da-udal.github.io/GoWithMe/
-- **Presentation video:** (add link)
-- **Project board:** (add link)
+- **Presentation video:** [(add link)](https://drive.google.com/drive/folders/1j5W5sts8wRprbJZcj3uxYzcqmFJFDfAl?usp=sharing)
+- **Project board:** https://github.com/orgs/MAL-da-udal/projects/5
