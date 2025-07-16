@@ -21,7 +21,7 @@
 #### Backend development (8 points)
 - [3] Go-based backend (3 points)
 - [1] RESTful API with Swagger documentation (1 point)
-- [ ] gRPC implementation for communication between microservices (1 point)
+- [1] gRPC implementation for communication between microservices (1 point)
 - [1] PostgreSQL database with proper schema design (1 point)
 - [1] JWT-based authentication and authorization (1 point)
 - [1] Comprehensive unit and integration tests (1 point)
@@ -50,9 +50,9 @@ all app
 
 #### Documentation (4 points)
 - [1] Project overview and setup instructions (1 point)
-- [] Screenshots and GIFs of key features (1 point)
+- [1] Screenshots and GIFs of key features (1 point)
 - [1] API documentation (1 point)
-- [] Architecture diagrams and explanations (1 point)
+- [1] Architecture diagrams and explanations (1 point)
 
 #### Code quality (2 points)
 - [1] Consistent code style and formatting during CI/CD pipeline (1 point)
