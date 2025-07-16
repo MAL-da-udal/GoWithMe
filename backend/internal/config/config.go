@@ -89,5 +89,5 @@ func Load() {
 		panic("Failed to create avatar upload directory")
 	}
 
-	AppConfig.Routes.CORSAddresses = []string{"http://mhdserver.ru"}
+	AppConfig.Routes.CORSAddresses = []string{"http://mhdserver.ru", "http://localhost:8080"}
 }
