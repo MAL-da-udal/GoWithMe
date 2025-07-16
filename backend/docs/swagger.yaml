@@ -1,0 +1,426 @@
+basePath: /
+definitions:
+  models.ErrorResponse:
+    properties:
+      details:
+        type: string
+    type: object
+  models.PaginatedUsersResponse:
+    properties:
+      page_num:
+        type: integer
+      users:
+        additionalProperties:
+          $ref: '#/definitions/models.UserProfileWithInterests'
+        type: object
+    type: object
+  models.Profile:
+    properties:
+      age:
+        type: integer
+      description:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      surname:
+        type: string
+      telegram:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.RefreshRequest:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
+  models.UpdateInterestsRequest:
+    properties:
+      interests:
+        items:
+          type: string
+        type: array
+    type: object
+  models.UpdateProfileRequest:
+    properties:
+      age:
+        type: integer
+      description:
+        type: string
+      gender:
+        type: string
+      name:
+        type: string
+      surname:
+        type: string
+      telegram:
+        type: string
+    type: object
+  models.UserProfileWithInterests:
+    properties:
+      interests:
+        items:
+          type: string
+        type: array
+      profile:
+        $ref: '#/definitions/models.Profile'
+    type: object
+info:
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: GoWithMe API Documentation
+  version: "1.0"
+paths:
+  /auth/:
+    get:
+      consumes:
+      - application/json
+      description: Validates token, and if it valid returns it's claims
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Get token claims
+      tags:
+      - Authorization
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Checks credentials and gives JWT if alles ist gut
+      parameters:
+      - description: Username
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login user
+      tags:
+      - Authorization
+  /auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: Refreshes access token using refresh token
+      parameters:
+      - description: Refresh Token
+        in: body
+        name: refresh_token
+        required: true
+        schema:
+          $ref: '#/definitions/models.RefreshRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Refresh access token
+      tags:
+      - Authorization
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Registers user with provided login and password
+      parameters:
+      - description: Username
+        in: query
+        name: username
+        required: true
+        type: string
+      - description: Password
+        in: query
+        name: password
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register user
+      tags:
+      - Authorization
+  /avatar:
+    get:
+      description: Retrieves the avatar image for the specified user or the authenticated
+        user if no user_id is provided.
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        type: integer
+      produces:
+      - image/jpeg
+      - image/png
+      responses:
+        "200":
+          description: Image
+          schema:
+            type: file
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Invalid or unauthorized token
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "404":
+          description: Avatar not found
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get user avatar
+      tags:
+      - Avatar
+    put:
+      consumes:
+      - multipart/form-data
+      description: Updates the avatar image for the authenticated user. Supports JPEG
+        and PNG files up to 2MB.
+      parameters:
+      - description: Avatar image file (JPEG or PNG)
+        in: formData
+        name: avatar
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Avatar uploaded successfully
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid input (e.g., file too large, wrong format)
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Invalid or unauthorized token
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Server error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Update user avatar
+      tags:
+      - Avatar
+  /interests/:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get user's interests
+      tags:
+      - Interests
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: Interests to set
+        in: body
+        name: interests
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateInterestsRequest'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Update user's interests
+      tags:
+      - Interests
+  /interests/all:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves paginated users who have specified interests, along with
+        their profiles and all interests
+      parameters:
+      - description: Page number (starting from 1)
+        in: query
+        name: page_num
+        required: true
+        type: integer
+      - default: 10
+        description: Number of users per page
+        in: query
+        name: page_size
+        type: integer
+      - description: Semicolon-separated list of interest IDs (e.g., bicycle;swimming)
+        in: query
+        name: interests
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Paginated users with profiles and interests
+          schema:
+            $ref: '#/definitions/models.PaginatedUsersResponse'
+        "400":
+          description: Invalid input (e.g., missing token, invalid page number, or
+            empty interests)
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "401":
+          description: Invalid or unauthorized token
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      security:
+      - BearerAuth: []
+      summary: Get users by interests
+      tags:
+      - Interests
+  /interests/cats:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - BearerAuth: []
+      summary: Get existing interests
+      tags:
+      - Interests
+  /profile/:
+    get:
+      consumes:
+      - application/json
+      description: Returns profile info of specified user id. If not specified, returns
+        profile info of user encoded in jwt
+      parameters:
+      - description: User ID
+        in: query
+        name: user_id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Profile'
+      security:
+      - BearerAuth: []
+      summary: Get profile
+      tags:
+      - Profile
+    patch:
+      consumes:
+      - application/json
+      description: Partially updates profile information
+      parameters:
+      - description: Profile Info to update
+        in: body
+        name: profile_info
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Profile'
+      security:
+      - BearerAuth: []
+      summary: Update profile
+      tags:
+      - Profile
+    post:
+      consumes:
+      - application/json
+      description: Creates profile
+      parameters:
+      - description: Profile Info
+        in: body
+        name: profile_info
+        required: true
+        schema:
+          $ref: '#/definitions/models.Profile'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create profile
+      tags:
+      - Profile
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
