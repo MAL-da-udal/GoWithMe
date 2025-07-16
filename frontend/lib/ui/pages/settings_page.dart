@@ -174,7 +174,7 @@ class SettingsPage extends ConsumerWidget {
             leading: Text('🇷🇺'),
             title: Text('Русский'),
             onTap: () => context.setLocale(Locale('ru')),
-             trailing: context.locale.languageCode == 'ru'
+            trailing: context.locale.languageCode == 'ru'
                 ? Icon(
                     CupertinoIcons.check_mark,
                     color: CupertinoColors.activeBlue,
@@ -185,7 +185,7 @@ class SettingsPage extends ConsumerWidget {
             leading: Text('🇺🇸'),
             title: Text('English'),
             onTap: () => context.setLocale(Locale('en')),
-             trailing: context.locale.languageCode == 'en'
+            trailing: context.locale.languageCode == 'en'
                 ? Icon(
                     CupertinoIcons.check_mark,
                     color: CupertinoColors.activeBlue,
