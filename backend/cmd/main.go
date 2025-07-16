@@ -21,5 +21,5 @@ func main() {
 	db.Connect()
 
 	router := routes.Setup()
-	router.Run(":8000")
+	router.Run(":8080")
 }

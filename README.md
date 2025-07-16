@@ -19,11 +19,11 @@
 ### Technical requirements (20 points)
 #### Backend development (8 points)
 - [ ] Go-based microservices architecture (minimum 3 services) (3 points)
-- [ ] RESTful API with Swagger documentation (1 point)
+- [x] RESTful API with Swagger documentation (1 point)
 - [ ] gRPC implementation for communication between microservices (1 point)
-- [ ] PostgreSQL database with proper schema design (1 point)
-- [ ] JWT-based authentication and authorization (1 point)
-- [ ] Comprehensive unit and integration tests (1 point)
+- [x] PostgreSQL database with proper schema design (1 point)
+- [x] JWT-based authentication and authorization (1 point)
+- [x] Comprehensive unit and integration tests (1 point)
 
 #### Frontend development (8 points)
 - [ ] Flutter-based cross-platform application (mobile + web) (3 points)
@@ -34,7 +34,7 @@
 - [ ] Support light and dark mode (1 point)
 
 #### DevOps & deployment (4 points)
-- [ ] Docker compose for all services (1 point)
+- [x] Docker compose for all services (1 point)
 - [ ] CI/CD pipeline implementation (1 point)
 - [ ] Environment configuration management using config files (1 point)
 - [ ] GitHub pages for the project (1 point)
@@ -87,6 +87,9 @@ GoWithMe is designed to help users find activity partners for sports and healthy
 ### Local launch
 
 ```sh
+# Download dependencies and generate documentation via makefile
+make
+
 # Start all services with Docker Compose
 docker compose up --build
 
@@ -95,9 +98,6 @@ cd frontend
 flutter pub get
 flutter run -d chrome
 
-# Run backend locally
-cd backend
-go run cmd/main.go
 ```
 
 ### Running tests
@@ -116,11 +116,17 @@ go test ./...
 
 ## API Documentation
 
+All documentation can be found in swagger. You can access it on <backend-url>:8080/swagger/index.html
 
 ---
 
 ## Architecture
 
+### Backend
+TODO
+
+### Frontend
+TODO
 
 ---
 
