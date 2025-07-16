@@ -5,6 +5,7 @@ import 'package:frontend/domain/providers/search_provider.dart';
 import 'package:frontend/ui/widgets/custom_filter_chip.dart';
 import 'package:frontend/ui/widgets/gender_icon.dart';
 import 'package:frontend/ui/widgets/icon_back.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserProfilePage extends ConsumerStatefulWidget {
   final String token;
@@ -24,7 +25,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
         backgroundColor: Colors.transparent,
         leading: IconBack(),
         title: Text(
-          'Профиль',
+          'userProfile.title'.tr(),
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -52,14 +53,17 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
               const SizedBox(height: 20),
               Text(
                 '${user!.name} ${user.surname}',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 6),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '${user.age} лет',
+                    '${user.age} ${'userProfile.yearsOld'.tr()}',
                     style: TextStyle(color: Colors.grey.shade700),
                   ),
                   const SizedBox(width: 8),
@@ -77,15 +81,18 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                   ),
                   child: Text(
                     user.description!,
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ),
               const SizedBox(height: 24),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Интересы',
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                  'userProfile.interests'.tr(),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 18,
+                  ),
                 ),
               ),
               const SizedBox(height: 8),
@@ -94,7 +101,7 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                 runSpacing: 8,
                 children: user.interests.map((act) {
                   return CustomFilterChip(
-                    label: act,
+                    label: 'interests.$act'.tr(),
                     selected: false,
                     onSelected: (_) {},
                   );
@@ -114,8 +121,8 @@ class _UserProfilePageState extends ConsumerState<UserProfilePage> {
                 onPressed: () async {
                   openUrl('https://t.me/${user.telegram}');
                 },
-                icon: Icon(Icons.telegram),
-                label: Text("Написать в Telegram"),
+                icon: const Icon(Icons.telegram),
+                label: Text("userProfile.messageOnTelegram".tr()),
               ),
               const SizedBox(height: 24),
             ],

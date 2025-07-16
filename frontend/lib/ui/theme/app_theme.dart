@@ -51,6 +51,10 @@ class AppTheme {
     iconButtonTheme: IconButtonThemeData(
       style: IconButton.styleFrom(foregroundColor: Colors.black, iconSize: 24),
     ),
+    listTileTheme: ListTileThemeData(
+      titleTextStyle: AppTextStyles.body.copyWith(color: Colors.black),
+      textColor: Colors.black,
+    ),
   );
 
   static ThemeData dark = ThemeData(
@@ -102,6 +106,10 @@ class AppTheme {
     iconTheme: const IconThemeData(color: Colors.white),
     iconButtonTheme: IconButtonThemeData(
       style: IconButton.styleFrom(foregroundColor: Colors.white),
+    ),
+    listTileTheme: ListTileThemeData(
+      titleTextStyle: AppTextStyles.body.copyWith(color: Colors.white),
+      textColor: Colors.white,
     ),
   );
 }

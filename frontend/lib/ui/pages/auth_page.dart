@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:frontend/domain/services/app_services.dart';
 import 'package:frontend/ui/theme/app_colors.dart';
 import 'package:frontend/ui/widgets/icon_back.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -49,11 +50,6 @@ class _AuthPageState extends State<AuthPage> {
         context.go('/home/1');
       }
     } catch (e) {
-      // if (mounted) {
-      //   ScaffoldMessenger.of(
-      //     context,
-      //   ).showSnackBar(SnackBar(content: Text('Ошибка: ${e.toString()}')));
-      // }
     } finally {
       if (mounted) setState(() => isLoading = false);
     }
@@ -116,7 +112,7 @@ class _AuthPageState extends State<AuthPage> {
                               vertical: 16,
                             ),
                           ),
-                          child: Text('Login'),
+                          child: Text('auth.login'.tr()),
                         ),
                         const SizedBox(height: 20),
                         ElevatedButton(
@@ -126,7 +122,7 @@ class _AuthPageState extends State<AuthPage> {
                               context,
                             ).colorScheme.primary,
                           ),
-                          child: Text('Register'),
+                          child: Text('auth.register'.tr()),
                         ),
 
                         const SizedBox(height: 20),
@@ -142,7 +138,7 @@ class _AuthPageState extends State<AuthPage> {
                                 TextFormField(
                                   controller: nameComtroller,
                                   decoration: InputDecoration(
-                                    labelText: 'Login',
+                                    labelText: 'auth.login'.tr(),
                                   ),
                                   validator: (val) => validateLogin(val ?? ''),
                                 ),
@@ -163,7 +159,7 @@ class _AuthPageState extends State<AuthPage> {
                                         });
                                       },
                                     ),
-                                    labelText: 'Password',
+                                    labelText: 'auth.password'.tr(),
                                   ),
                                   validator: (val) =>
                                       validatePassword(val ?? ''),
@@ -174,7 +170,7 @@ class _AuthPageState extends State<AuthPage> {
                                     controller: confirmPasswordController,
                                     obscureText: isObscuredConfirm,
                                     decoration: InputDecoration(
-                                      labelText: 'Retry password',
+                                      labelText: 'auth.confirmPassword'.tr(),
                                       suffixIcon: IconButton(
                                         icon: Icon(
                                           isObscuredConfirm
@@ -211,7 +207,9 @@ class _AuthPageState extends State<AuthPage> {
                                           ),
                                         ),
                                         child: Text(
-                                          isLogin! ? 'Log in' : 'Register',
+                                          isLogin!
+                                              ? 'auth.login'.tr()
+                                              : 'auth.register'.tr(),
                                         ),
                                       ),
                               ],

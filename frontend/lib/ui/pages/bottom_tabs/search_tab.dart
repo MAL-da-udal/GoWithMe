@@ -5,6 +5,7 @@ import 'package:frontend/domain/providers/search_provider.dart';
 import 'package:frontend/domain/services/app_services.dart';
 import 'package:frontend/ui/widgets/custom_filter_chip.dart';
 import 'package:frontend/ui/widgets/gender_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SearchTab extends ConsumerStatefulWidget {
   const SearchTab({super.key});
@@ -47,12 +48,13 @@ class _SearchTabState extends ConsumerState<SearchTab> {
     final selected = ref.watch(searchProvider).selected;
     final users = ref.watch(searchProvider).users;
     final search = ref.watch(searchProvider);
+
     return SafeArea(
       child: ListView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         children: [
           if (interests.isEmpty && search.isLoadingInterests)
-            Center(child: CircularProgressIndicator()),
+            const Center(child: CircularProgressIndicator()),
           Wrap(
             spacing: 8,
             runSpacing: 8,
@@ -60,7 +62,7 @@ class _SearchTabState extends ConsumerState<SearchTab> {
               final isSelected = selected.contains(interest);
 
               return CustomFilterChip(
-                label: interest,
+                label: 'interests.$interest'.tr(),
                 selected: isSelected,
                 onSelected: (_) {
                   isSelected
@@ -70,21 +72,23 @@ class _SearchTabState extends ConsumerState<SearchTab> {
               );
             }).toList(),
           ),
-          SizedBox(height: 16),
-
+          const SizedBox(height: 16),
           Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                ElevatedButton(onPressed: _searchUsers, child: Text('Найти')),
+                ElevatedButton(
+                  onPressed: _searchUsers,
+                  child: Text('search.find'.tr()),
+                ),
               ],
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           if (users.isEmpty && search.isSearched && !search.isLoading)
-            Text('Пользователи не найдены'),
-          if (search.isLoading) Center(child: CircularProgressIndicator()),
-
+            Text('search.notFound'.tr()),
+          if (search.isLoading)
+            const Center(child: CircularProgressIndicator()),
           ...users.map((user) {
             return Card(
               child: ListTile(
@@ -103,7 +107,9 @@ class _SearchTabState extends ConsumerState<SearchTab> {
                     GenderIcon(gender: user.gender),
                   ],
                 ),
-                subtitle: Text(user.interests.join(', ')),
+                subtitle: Text(
+                  user.interests.map((e) => 'interests.$e'.tr()).join(', '),
+                ),
                 onTap: () {
                   ref.read(searchProvider).setCurrentUser(user);
                   context.push('/profile/${user.id}');

@@ -1,5 +1,6 @@
 import 'dart:io' show Platform;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class SettingsPage extends ConsumerWidget {
       return CupertinoPageScaffold(
         navigationBar: CupertinoNavigationBar(
           middle: Text(
-            'Настройки',
+            'settings.settings'.tr(),
             style: Theme.of(context).textTheme.titleLarge,
           ),
           leading: CupertinoNavigationBarBackButton(
@@ -35,13 +36,16 @@ class SettingsPage extends ConsumerWidget {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              Text('Тема', style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                'settings.theme'.tr(),
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               const SizedBox(height: 8),
               CupertinoFormSection.insetGrouped(
                 backgroundColor: Colors.transparent,
                 children: [
                   CupertinoFormRow(
-                    prefix: Text('Системная'),
+                    prefix: Text('settings.system'.tr()),
                     child: CupertinoSwitch(
                       value: themeMode == ThemeMode.system,
                       onChanged: (val) {
@@ -50,7 +54,7 @@ class SettingsPage extends ConsumerWidget {
                     ),
                   ),
                   CupertinoFormRow(
-                    prefix: Text('Светлая'),
+                    prefix: Text('settings.light'.tr()),
                     child: CupertinoSwitch(
                       value: themeMode == ThemeMode.light,
                       onChanged: (val) {
@@ -59,13 +63,51 @@ class SettingsPage extends ConsumerWidget {
                     ),
                   ),
                   CupertinoFormRow(
-                    prefix: Text('Тёмная'),
+                    prefix: Text('settings.dark'.tr()),
                     child: CupertinoSwitch(
                       value: themeMode == ThemeMode.dark,
                       onChanged: (val) {
                         if (val) themeNotifier.setTheme(ThemeMode.dark);
                       },
                     ),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.only(top: 24)),
+              Text(
+                'settings.language'.tr(),
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 8),
+              CupertinoFormSection.insetGrouped(
+                backgroundColor: Colors.transparent,
+                children: [
+                  CupertinoListTile(
+                    title: Text(
+                      'Русский 🇷🇺',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+
+                    trailing: context.locale.languageCode == 'ru'
+                        ? Icon(
+                            CupertinoIcons.check_mark,
+                            color: CupertinoColors.activeBlue,
+                          )
+                        : null,
+                    onTap: () => context.setLocale(Locale('ru')),
+                  ),
+                  CupertinoListTile(
+                    title: Text(
+                      'English 🇺🇸',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    trailing: context.locale.languageCode == 'en'
+                        ? Icon(
+                            CupertinoIcons.check_mark,
+                            color: CupertinoColors.activeBlue,
+                          )
+                        : null,
+                    onTap: () => context.setLocale(Locale('en')),
                   ),
                 ],
               ),
@@ -79,16 +121,22 @@ class SettingsPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Настройки'),
+        title: Text(
+          'settings.settings'.tr(),
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
         leading: IconBack(callback: () => context.go('/home/1')),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text('Тема', style: Theme.of(context).textTheme.titleLarge),
+          Text(
+            'settings.theme'.tr(),
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
 
           RadioListTile(
-            title: Text('Системная'),
+            title: Text('settings.system'.tr()),
             value: ThemeMode.system,
             groupValue: themeMode,
             onChanged: (mode) async {
@@ -98,7 +146,7 @@ class SettingsPage extends ConsumerWidget {
             },
           ),
           RadioListTile(
-            title: Text('Светлая'),
+            title: Text('settings.light'.tr()),
             value: ThemeMode.light,
             groupValue: themeMode,
             onChanged: (mode) async {
@@ -108,7 +156,7 @@ class SettingsPage extends ConsumerWidget {
             },
           ),
           RadioListTile(
-            title: Text('Тёмная'),
+            title: Text('settings.dark'.tr()),
             value: ThemeMode.dark,
             groupValue: themeMode,
             onChanged: (mode) async {
@@ -116,6 +164,21 @@ class SettingsPage extends ConsumerWidget {
                 await themeNotifier.setTheme(mode);
               }
             },
+          ),
+          Padding(padding: EdgeInsets.only(top: 24)),
+          Text(
+            'settings.language'.tr(),
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          ListTile(
+            leading: Text('🇷🇺'),
+            title: Text('Русский'),
+            onTap: () => context.setLocale(Locale('ru')),
+          ),
+          ListTile(
+            leading: Text('🇺🇸'),
+            title: Text('English'),
+            onTap: () => context.setLocale(Locale('en')),
           ),
           Padding(padding: EdgeInsets.only(top: 16)),
 

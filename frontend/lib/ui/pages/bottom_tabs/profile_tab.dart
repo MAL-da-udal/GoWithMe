@@ -9,6 +9,7 @@ import 'package:frontend/domain/services/app_services.dart';
 import 'package:frontend/domain/services/shared_preferences_service.dart';
 import 'package:frontend/ui/widgets/custom_filter_chip.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileTab extends ConsumerStatefulWidget {
   const ProfileTab({super.key});
@@ -83,7 +84,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
       await profileRepository.uploadAvatar(bytes);
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Профиль обновлён')));
+      ).showSnackBar(SnackBar(content: Text('profile.updateSuccess'.tr())));
     }
   }
 
@@ -153,24 +154,28 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                   const SizedBox(height: 16),
                   TextField(
                     controller: nameController,
-                    decoration: InputDecoration(labelText: 'Имя'),
+                    decoration: InputDecoration(
+                      labelText: 'profile.firstName'.tr(),
+                    ),
                   ),
                   const SizedBox(height: 15),
                   TextField(
                     controller: surnameController,
-                    decoration: InputDecoration(labelText: 'Фамилия'),
+                    decoration: InputDecoration(
+                      labelText: 'profile.lastName'.tr(),
+                    ),
                   ),
                   const SizedBox(height: 15),
                   TextField(
                     controller: ageController,
-                    decoration: InputDecoration(labelText: 'Возраст'),
+                    decoration: InputDecoration(labelText: 'profile.age'.tr()),
                     keyboardType: TextInputType.number,
                   ),
                   const SizedBox(height: 15),
                   TextField(
                     controller: aliasController,
                     decoration: InputDecoration(
-                      labelText: 'Telegram',
+                      labelText: 'profile.telegram'.tr(),
                       prefixText: '@',
                       hintText: 'username',
                     ),
@@ -180,7 +185,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ChoiceChip(
-                        label: const Text('Ж'),
+                        label: Text('profile.genderFemale'.tr()),
                         selected: gender == 'Ж',
                         onSelected: (_) => setState(() => gender = 'Ж'),
                         backgroundColor: Theme.of(
@@ -198,7 +203,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                       ),
                       const SizedBox(width: 10),
                       ChoiceChip(
-                        label: const Text('М'),
+                        label: Text('profile.genderMale'.tr()),
                         selected: gender == 'М',
                         onSelected: (_) => setState(() => gender = 'М'),
                         backgroundColor: Theme.of(
@@ -219,7 +224,9 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                   const SizedBox(height: 16),
                   TextField(
                     controller: descriptionController,
-                    decoration: InputDecoration(labelText: 'Описание'),
+                    decoration: InputDecoration(
+                      labelText: 'profile.description'.tr(),
+                    ),
                     maxLines: 3,
                   ),
                   const SizedBox(height: 16),
@@ -229,7 +236,7 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                     children: activities.map((act) {
                       final isSelected = selectedActivities.contains(act);
                       return CustomFilterChip(
-                        label: act,
+                        label: 'interests.$act'.tr(),
                         selected: isSelected,
                         onSelected: (_) {
                           setState(() {
@@ -255,10 +262,10 @@ class _ProfileTabState extends ConsumerState<ProfileTab> {
                       );
 
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Профиль обновлён')),
+                        SnackBar(content: Text('profile.updateSuccess'.tr())),
                       );
                     },
-                    child: Text("Сохранить"),
+                    child: Text("profile.save".tr()),
                   ),
                 ],
               ),
