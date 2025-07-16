@@ -79,63 +79,88 @@ GoWithMe is designed to help users find activity partners for sports and healthy
 ## Setup Instructions
 
 ### Prerequisites
-- Docker & Docker Compose
-- Flutter (3.22+)
-- Go (1.22+)
-- PostgreSQL
+- **Docker** & **Docker Compose** (recommended for all platforms)
+- (For development only) Flutter (3.22+) and Go (1.22+)
 
-### Local launch
+---
+
+### Quick Start (recommended)
+
+The easiest way to run the project (backend, frontend, and database) is using Docker Compose:
 
 ```sh
-# Download dependencies and generate documentation via makefile
-make
+# Clone the repository
+git clone https://github.com/MAL-da-udal/GoWithMe.git
+cd GoWithMe
 
-# Start all services with Docker Compose
+# Build and start all services
 docker compose up --build
+```
 
-# Run frontend locally
+- **Backend:** http://localhost:8080  
+- **Frontend (Web):** http://localhost:80  
+- **Swagger API docs:** http://localhost:8080/swagger/index.html
+
+---
+
+### Development Mode (for development)
+
+If you want to run and develop services separately (for example, for hot reload):
+
+#### Frontend
+
+```sh
 cd frontend
 flutter pub get
 flutter run -d chrome
-
 ```
 
-### Running tests
+#### Backend
 
 ```sh
-# Frontend
+cd backend
+go mod tidy
+go run cmd/main.go
+```
+
+#### Database
+
+- You can use the database from Docker Compose or your own local PostgreSQL instance.
+
+---
+
+### Running Tests
+
+#### Frontend
+
+```sh
 cd frontend
 flutter test --coverage
+```
 
-# Backend
+#### Backend
+
+```sh
 cd backend
 go test ./...
 ```
 
 ---
 
+**Recommendation:** For most users and for deployment, use Docker Compose. Flutter and Go are only required for local development.
+
+---
+
 ## API Documentation
 
-All documentation can be found in swagger. You can access it on backend-url:8080/swagger/index.html
+All documentation can be found in swagger. You can access it on <backend-url>:8080/swagger/index.html
 
 ---
 
 ## Architecture
 
 ### Backend
-![Backend Arch](./images/backend-arch.png)
-
-#### Stack Overview
-
-* **HTTP Server framework:** gin
-* **Database ORM:** gorm
-* **Database:** PostgreSQL
-
-### Key features
-- JWT Authentication and authorization
-- gORM for convenient communication with Database
-- Gin framework to organize RESTful API
-- Swagger for documentation
+TODO
 
 ### Frontend Architecture
 
