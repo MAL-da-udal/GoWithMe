@@ -13,10 +13,18 @@ class SearchProvider extends ChangeNotifier {
   List<User> users = [];
   bool isSearched = false;
   User? currentUser;
+  bool isLoading = false;
+  bool isLoadingInterests = false;
+  void startLoadingInterests() {
+    isLoadingInterests = true;
+  }
+
+  void stopLoadingInterests() {
+    isLoadingInterests = false;
+  }
 
   void search() {
     isSearched = true;
-    notifyListeners();
   }
 
   void reset() {
@@ -25,6 +33,7 @@ class SearchProvider extends ChangeNotifier {
 
   void setInterests(List<String> newInterests) {
     interests = newInterests;
+    stopLoadingInterests();
     notifyListeners();
   }
 
@@ -67,6 +76,17 @@ class SearchProvider extends ChangeNotifier {
         user.avatarBytes = bytes;
       } catch (_) {}
     }
+    notifyListeners();
+  }
+
+  void startLoading() {
+    isLoading = true;
+    users.clear();
+    notifyListeners();
+  }
+
+  void stopLoading() {
+    isLoading = false;
     notifyListeners();
   }
 }

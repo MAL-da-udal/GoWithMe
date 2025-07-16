@@ -1,3 +1,4 @@
+export PATH := $(HOME)/go/bin:$(PATH)
 
 .PHONY: all
 all: backend_dependencies backend_docs

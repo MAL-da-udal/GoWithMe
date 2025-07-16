@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:frontend/domain/services/app_services.dart';
 import 'package:frontend/ui/theme/app_colors.dart';
 import 'package:frontend/ui/widgets/icon_back.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -49,11 +50,6 @@ class _AuthPageState extends State<AuthPage> {
         context.go('/home/1');
       }
     } catch (e) {
-      // if (mounted) {
-      //   ScaffoldMessenger.of(
-      //     context,
-      //   ).showSnackBar(SnackBar(content: Text('Ошибка: ${e.toString()}')));
-      // }
     } finally {
       if (mounted) setState(() => isLoading = false);
     }
@@ -67,147 +63,163 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        body: SafeArea(
           child: Stack(
             children: [
               if (isLogin != null) ...[
-                Row(
-                  children: [
-                    IconBack(
-                      callback: () {
-                        clearControllers();
-                        setState(() => isLogin = null);
-                        isObscured = true;
-                        isObscuredConfirm = true;
-                      },
-                    ),
-                    const Spacer(),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      IconBack(
+                        callback: () {
+                          clearControllers();
+                          setState(() => isLogin = null);
+                          isObscured = true;
+                          isObscuredConfirm = true;
+                        },
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
                 ),
               ],
-              Column(
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/images/logo.png',
+                        height: MediaQuery.of(context).size.height * 0.2,
+                      ),
 
-                  Image.asset(
-                    'assets/images/logo.png',
-                    height: MediaQuery.of(context).size.height * 0.2,
-                  ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.15,
+                      ),
 
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-
-                  if (isLogin == null) ...[
-                    ElevatedButton(
-                      onPressed: () => setState(() => isLogin = true),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.primary, //
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 40,
-                          vertical: 16,
+                      if (isLogin == null) ...[
+                        ElevatedButton(
+                          onPressed: () => setState(() => isLogin = true),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primary, //
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 40,
+                              vertical: 16,
+                            ),
+                          ),
+                          child: Text('auth.login'.tr()),
                         ),
-                      ),
-                      child: Text('Login'),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () => setState(() => isLogin = false),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                      child: Text('Register'),
-                    ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () => setState(() => isLogin = false),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
+                          ),
+                          child: Text('auth.register'.tr()),
+                        ),
 
-                    const SizedBox(height: 20),
-                  ],
+                        const SizedBox(height: 20),
+                      ],
 
-                  if (isLogin != null) ...[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: nameComtroller,
-                              decoration: InputDecoration(labelText: 'Login'),
-                              validator: (val) => validateLogin(val ?? ''),
-                            ),
-                            const SizedBox(height: 20),
-                            TextFormField(
-                              controller: passwordController,
-                              obscureText: isObscured,
-                              decoration: InputDecoration(
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    isObscured
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
+                      if (isLogin != null) ...[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: nameComtroller,
+                                  decoration: InputDecoration(
+                                    labelText: 'auth.login'.tr(),
                                   ),
-                                  onPressed: () {
-                                    setState(() {
-                                      isObscured = !isObscured;
-                                    });
-                                  },
+                                  validator: (val) => validateLogin(val ?? ''),
                                 ),
-                                labelText: 'Password',
-                              ),
-                              validator: (val) => validatePassword(val ?? ''),
-                            ),
-                            if (isLogin == false) ...[
-                              const SizedBox(height: 20),
-                              TextFormField(
-                                controller: confirmPasswordController,
-                                obscureText: isObscuredConfirm,
-                                decoration: InputDecoration(
-                                  labelText: 'Retry password',
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      isObscuredConfirm
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
+                                const SizedBox(height: 20),
+                                TextFormField(
+                                  controller: passwordController,
+                                  obscureText: isObscured,
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        isObscured
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          isObscured = !isObscured;
+                                        });
+                                      },
                                     ),
-                                    onPressed: () {
-                                      setState(() {
-                                        isObscuredConfirm = !isObscuredConfirm;
-                                      });
-                                    },
+                                    labelText: 'auth.password'.tr(),
                                   ),
+                                  validator: (val) =>
+                                      validatePassword(val ?? ''),
                                 ),
-                                validator: (val) =>
-                                    validatePasswordConfirmation(
-                                      passwordController.text,
-                                      val ?? '',
-                                    ),
-                              ),
-                            ],
-                            const SizedBox(height: 20),
-                            isLoading
-                                ? CircularProgressIndicator()
-                                : ElevatedButton(
-                                    onPressed: _submit,
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: isLogin == true
-                                          ? AppColors.primary
-                                          : null,
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 40,
-                                        vertical: 16,
+                                if (isLogin == false) ...[
+                                  const SizedBox(height: 20),
+                                  TextFormField(
+                                    controller: confirmPasswordController,
+                                    obscureText: isObscuredConfirm,
+                                    decoration: InputDecoration(
+                                      labelText: 'auth.confirmPassword'.tr(),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          isObscuredConfirm
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            isObscuredConfirm =
+                                                !isObscuredConfirm;
+                                          });
+                                        },
                                       ),
                                     ),
-                                    child: Text(
-                                      isLogin! ? 'Log in' : 'Register',
-                                    ),
+                                    validator: (val) =>
+                                        validatePasswordConfirmation(
+                                          passwordController.text,
+                                          val ?? '',
+                                        ),
                                   ),
-                          ],
+                                ],
+                                const SizedBox(height: 20),
+                                isLoading
+                                    ? CircularProgressIndicator()
+                                    : ElevatedButton(
+                                        onPressed: _submit,
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: isLogin == true
+                                              ? AppColors.primary
+                                              : null,
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: 40,
+                                            vertical: 16,
+                                          ),
+                                        ),
+                                        child: Text(
+                                          isLogin!
+                                              ? 'auth.login'.tr()
+                                              : 'auth.register'.tr(),
+                                        ),
+                                      ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ],
-                ],
+                      ],
+                    ],
+                  ),
+                ),
               ),
             ],
           ),

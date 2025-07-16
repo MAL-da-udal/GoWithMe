@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/ui/pages/bottom_tabs/profile_tab.dart';
 import 'package:frontend/ui/pages/bottom_tabs/search_tab.dart';
 import 'package:frontend/ui/theme/app_colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HomePage extends StatefulWidget {
   final String? index;
@@ -37,9 +38,8 @@ class _HomePageState extends State<HomePage> {
       appBar: _currentIndex == 0
           ? AppBar(
               backgroundColor: Colors.transparent,
-
               title: Text(
-                'Найти компаньона',
+                'home.searchTitle'.tr(),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             )
@@ -54,9 +54,15 @@ class _HomePageState extends State<HomePage> {
           );
         },
         selectedItemColor: AppColors.primary,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Поиск'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Профиль'),
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.search),
+            label: 'home.search'.tr(),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person),
+            label: 'home.profile'.tr(),
+          ),
         ],
       ),
     );

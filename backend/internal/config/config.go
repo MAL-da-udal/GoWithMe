@@ -3,7 +3,12 @@ package config
 import "os"
 
 type Config struct {
+	Routes struct {
+		CORSAddresses []string
+	}
+
 	Database struct {
+		Host     string
 		User     string
 		Password string
 		Name     string
@@ -68,6 +73,7 @@ func CreateInterests() {
 }
 
 func Load() {
+	AppConfig.Database.Host = os.Getenv("POSTGRES_HOST")
 	AppConfig.Database.User = os.Getenv("POSTGRES_USER")
 	AppConfig.Database.Password = os.Getenv("POSTGRES_PASSWORD")
 	AppConfig.Database.Name = os.Getenv("POSTGRES_DB")
@@ -82,4 +88,6 @@ func Load() {
 	if err := os.MkdirAll(AppConfig.Avatars.UploadDir, os.ModePerm); err != nil {
 		panic("Failed to create avatar upload directory")
 	}
+
+	AppConfig.Routes.CORSAddresses = []string{"http://mhdserver.ru", "http://localhost:8080"}
 }
