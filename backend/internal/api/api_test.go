@@ -137,7 +137,7 @@ func TestGetUsersByInterests_InvalidPageNum(t *testing.T) {
 
 func TestUpdateAvatar_NoJWT(t *testing.T) {
 	ctx, rec := getTestContext("PUT", "/avatar", nil, "")
-	
+
 	rec.Code = 0
 	UpdateAvatar(ctx)
 	if rec.Code != http.StatusBadRequest {
