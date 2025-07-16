@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:go_with_me/data/enums/get_storage_key.dart';
+import 'package:go_with_me/data/models/error_messages.dart';
+import 'package:go_with_me/main.dart';
 
 class ApiClient {
   final GetStorage storage = GetStorage();
@@ -25,6 +28,9 @@ class ApiClient {
         },
 
         onError: (e, handler) async {
+           final suppressNotification =
+              e.requestOptions.extra['suppressErrorNotification'] == true;
+
           if (e.response?.statusCode == 401) {
             final newAccessToken = await refreshToken();
             if (newAccessToken != null) {
@@ -36,7 +42,36 @@ class ApiClient {
               return handler.resolve(await dio.fetch(e.requestOptions));
             }
           }
+          if (!suppressNotification) {
+            final statusCode = e.response?.statusCode;
+            final data = e.response?.data;
+        
 
+            String? serverMessage;
+
+            if (data is Map<String, dynamic>) {
+              serverMessage = data['details'] ?? data['detail'];
+            }
+
+            final fallback = 'Произошла ошибка. Попробуйте позже.';
+            final message =
+                serverMessage?.toString() ??
+                defaultErrorMessages[statusCode] ??
+                fallback;
+
+            final messenger = rootScaffoldMessengerKey.currentState;
+            messenger?.clearSnackBars();
+            messenger?.showSnackBar(
+              SnackBar(
+                content: Text(
+                  "❌ $message",
+                  style: const TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Colors.red,
+                duration: const Duration(seconds: 4),
+              ),
+            );
+          }
           return handler.next(e);
         },
       ),

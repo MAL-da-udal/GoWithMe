@@ -5,6 +5,9 @@ import 'package:go_with_me/domain/providers/theme_provider.dart';
 import 'package:go_with_me/router.dart';
 import 'package:go_with_me/ui/theme/app_theme.dart';
 
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
@@ -19,6 +22,8 @@ class MyApp extends ConsumerWidget {
     final themeMode = ref.watch(themeProvider);
 
     return MaterialApp.router(
+      scaffoldMessengerKey: rootScaffoldMessengerKey,
+
       routerConfig: router,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,

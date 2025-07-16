@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_with_me/domain/services/app_services.dart';
@@ -71,17 +72,28 @@ class _ProfileTabState extends State<ProfileTab> {
       final bytes = await image.readAsBytes();
       setState(() => _avatarBytes = bytes);
       await profileRepository.uploadAvatar(bytes);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Профиль обновлён')));
     }
   }
 
   Future<void> _loadAvatar() async {
     final local = await _prefsService.loadAvatar();
-    setState(() => _avatarBytes = local);
+    if (local != null) {
+      setState(() => _avatarBytes = local);
+    }
 
     try {
+
       final fresh = await profileRepository.fetchAvatar(null);
       setState(() => _avatarBytes = fresh);
-    } catch (_) {}
+
+    } on DioException catch (e) {
+      if (e.response?.statusCode != 404) {
+        rethrow;
+      }
+    }
   }
 
   @override

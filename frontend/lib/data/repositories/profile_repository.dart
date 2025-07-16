@@ -109,14 +109,25 @@ class ProfileRepository {
   }
 
   Future<Uint8List?> fetchAvatar(int? userId) async {
-    final response = await apiClient.dio.get<List<int>>(
-      '/avatar',
-      queryParameters: {'user_id': userId},
-      options: Options(responseType: ResponseType.bytes),
-    );
+    try {
+      final response = await apiClient.dio.get<List<int>>(
+        '/avatar',
+        queryParameters: {'user_id': userId},
+        options: Options(
+          responseType: ResponseType.bytes,
+          extra: {'suppressErrorNotification': true},
+        ),
+      );
 
-    final bytes = Uint8List.fromList(response.data!);
-    await SharedPreferencesService().saveAvatar(bytes);
-    return bytes;
+      final bytes = Uint8List.fromList(response.data!);
+      await SharedPreferencesService().saveAvatar(bytes);
+      return bytes;
+    } on DioException catch (e) {
+      if (e.response?.statusCode != 404) {
+        rethrow;
+      } else {
+        return null;
+      }
+    }
   }
 }

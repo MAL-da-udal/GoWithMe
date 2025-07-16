@@ -7,7 +7,7 @@ class AppTheme {
     fontFamily: 'Montserrat',
 
     brightness: Brightness.light,
-    scaffoldBackgroundColor: AppColors.background,
+    scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
       color: AppColors.primary,
       foregroundColor: Colors.white,

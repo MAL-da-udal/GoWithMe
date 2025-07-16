@@ -49,11 +49,11 @@ class _AuthPageState extends State<AuthPage> {
         context.go('/home/1');
       }
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Ошибка: ${e.toString()}')));
-      }
+      // if (mounted) {
+      //   ScaffoldMessenger.of(
+      //     context,
+      //   ).showSnackBar(SnackBar(content: Text('Ошибка: ${e.toString()}')));
+      // }
     } finally {
       if (mounted) setState(() => isLoading = false);
     }
@@ -68,7 +68,6 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Stack(
@@ -103,7 +102,7 @@ class _AuthPageState extends State<AuthPage> {
                     ElevatedButton(
                       onPressed: () => setState(() => isLogin = true),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        backgroundColor: Theme.of(context).colorScheme.primary,//
                         padding: EdgeInsets.symmetric(
                           horizontal: 40,
                           vertical: 16,
@@ -115,7 +114,7 @@ class _AuthPageState extends State<AuthPage> {
                     ElevatedButton(
                       onPressed: () => setState(() => isLogin = false),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
                       ),
                       child: Text('Register'),
                     ),
