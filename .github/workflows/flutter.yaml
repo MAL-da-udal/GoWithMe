@@ -5,9 +5,9 @@ permissions:
 
 on:
   push:
-    branches: [ dev, main ]
+    branches: [ dev, main, devops ]
   pull_request:
-    branches: [ dev, main ]
+    branches: [ dev, main, devops ]
 
 jobs:
   build-and-deploy-web:
