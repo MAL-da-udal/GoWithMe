@@ -15,7 +15,7 @@ func MakeMigrations() {
 }
 
 func Connect() {
-	dsn := "host=localhost user=" + config.AppConfig.Database.User + " password=" + config.AppConfig.Database.Password + " dbname=" + config.AppConfig.Database.Name + " sslmode=disable TimeZone=Europe/Moscow"
+	dsn := "host=" + config.AppConfig.Database.Host + " user=" + config.AppConfig.Database.User + " password=" + config.AppConfig.Database.Password + " dbname=" + config.AppConfig.Database.Name + " sslmode=disable TimeZone=Europe/Moscow"
 
 	var err error
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
