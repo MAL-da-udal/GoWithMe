@@ -1,66 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:frontend/domain/providers/search_provider.dart';
+import 'package:frontend/domain/services/app_services.dart';
 import 'package:frontend/ui/widgets/custom_filter_chip.dart';
+import 'package:frontend/ui/widgets/gender_icon.dart';
 
-class SearchTab extends StatefulWidget {
+class SearchTab extends ConsumerStatefulWidget {
   const SearchTab({super.key});
 
   @override
-  State<SearchTab> createState() => _SearchTabState();
+  ConsumerState<SearchTab> createState() => _SearchTabState();
 }
 
-class _SearchTabState extends State<SearchTab> {
-  List<String> interests = [];
-  List<String> selected = [];
-  List<UserPreview> users = [];
-
+class _SearchTabState extends ConsumerState<SearchTab> {
   @override
   void initState() {
     super.initState();
     _loadInterests();
+    ref.read(searchProvider).reset();
   }
 
   Future<void> _loadInterests() async {
-    // TODO: Change to request /interests/cats
-    await Future.delayed(const Duration(milliseconds: 200));
-    setState(() {
-      interests = [
-        'Йога',
-        'Бег',
-        'Велосипед',
-        'Плавание',
-        'Футбол',
-        'Танцы',
-        'Питание',
-        'Медитация',
-        'Походы',
-      ];
-    });
+    final cats = await searchRepository.getInterestCategories();
+    ref.read(searchProvider).setInterests(cats);
   }
 
   Future<void> _searchUsers() async {
-    // TODO: Change to request  /interests/all or request with selected interests
-    setState(() {
-      users = [
-        UserPreview(
-          name: 'Марина',
-          age: 23,
-          interests: ['Йога', 'Плавание'],
-          token: "test",
-        ),
-        UserPreview(name: 'Лёня', age: 25, interests: ['Футбол'], token: "52x"),
-        UserPreview(
-          name: 'Саша',
-          age: 22,
-          interests: ['Плавание'],
-          token: "xxx",
-        ),
-      ];
-    });
+    final selected = ref.watch(searchProvider).selected;
+    final users = await searchRepository.searchUsersByInterests(selected);
+    await ref.read(searchProvider).setUsers(users);
+    ref.read(searchProvider).search();
   }
 
   @override
   Widget build(BuildContext context) {
+    final interests = ref.watch(searchProvider).interests;
+    final selected = ref.watch(searchProvider).selected;
+    final users = ref.watch(searchProvider).users;
+    final search = ref.watch(searchProvider);
     return SafeArea(
       child: Column(
         children: [
@@ -75,11 +53,9 @@ class _SearchTabState extends State<SearchTab> {
                 label: interest,
                 selected: isSelected,
                 onSelected: (_) {
-                  setState(() {
-                    isSelected
-                        ? selected.remove(interest)
-                        : selected.add(interest);
-                  });
+                  isSelected
+                      ? search.removeSelected(interest)
+                      : search.addSelected(interest);
                 },
               );
             }).toList(),
@@ -88,6 +64,8 @@ class _SearchTabState extends State<SearchTab> {
 
           ElevatedButton(onPressed: _searchUsers, child: Text('Найти')),
           SizedBox(height: 16),
+          if (users.isEmpty && search.isSearched)
+            Text('Пользователи не найдены'),
 
           Expanded(
             child: ListView.builder(
@@ -96,10 +74,26 @@ class _SearchTabState extends State<SearchTab> {
                 final user = users[index];
                 return Card(
                   child: ListTile(
-                    leading: CircleAvatar(child: Icon(Icons.person)),
-                    title: Text('${user.name}, ${user.age}'),
+                    leading: CircleAvatar(
+                      backgroundImage: user.avatarBytes != null
+                          ? MemoryImage(user.avatarBytes!)
+                          : null,
+                      child: user.avatarBytes == null
+                          ? Icon(Icons.person)
+                          : null,
+                    ),
+                    title: Row(
+                      children: [
+                        Text('${user.name}, ${user.age}'),
+                        Padding(padding: EdgeInsets.only(left: 5)),
+                        GenderIcon(gender: user.gender),
+                      ],
+                    ),
                     subtitle: Text(user.interests.join(', ')),
-                    onTap: () => context.push('/profile/${user.token}'),
+                    onTap: () {
+                      ref.read(searchProvider).setCurrentUser(user);
+                      context.push('/profile/${user.id}');
+                    },
                   ),
                 );
               },
@@ -109,18 +103,4 @@ class _SearchTabState extends State<SearchTab> {
       ),
     );
   }
-}
-
-class UserPreview {
-  final String name;
-  final int age;
-  final List<String> interests;
-  final String token;
-
-  UserPreview({
-    required this.name,
-    required this.age,
-    required this.interests,
-    this.token = "x",
-  });
 }

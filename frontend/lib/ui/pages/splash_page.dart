@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:frontend/domain/services/shared_preferences_service.dart';
+import 'package:frontend/data/enums/get_storage_key.dart';
+import 'package:frontend/domain/services/app_services.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -17,18 +18,22 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _checkAuth() async {
-    final prefsService = SharedPreferencesService();
-    final token = await prefsService.loadToken();
+    final refreshToken = await apiClient.storage.read(
+      GetStorageKey.refreshToken.value,
+    );
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      final newAccessToken = await apiClient.refreshToken();
 
-    await Future.delayed(const Duration(seconds: 1));
+      if (newAccessToken != null) {
+        await apiClient.saveTokens(newAccessToken, refreshToken);
 
-    if (!mounted) return;
+        if (mounted) context.go('/home');
 
-    if (token != null && token.isNotEmpty) {
-      context.go('/home');
-    } else {
-      context.go('/auth');
+        return;
+      }
     }
+
+    if (mounted) context.go('/auth');
   }
 
   @override

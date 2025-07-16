@@ -27,6 +27,7 @@ func CreateProfile(info *models.Profile) error {
 		Surname:     info.Surname,
 		Age:         info.Age,
 		Gender:      info.Gender,
+		Telegram:    info.Telegram,
 		Description: info.Description,
 	}
 
@@ -85,6 +86,9 @@ func UpdateProfile(userId int, updateReq *models.UpdateProfileRequest) (*models.
 	}
 	if updateReq.Description != nil {
 		profile.Description = *updateReq.Description
+	}
+	if updateReq.Telegram != nil {
+		profile.Telegram = *updateReq.Telegram
 	}
 
 	if err := db.DB.Save(&profile).Error; err != nil {

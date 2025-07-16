@@ -10,6 +10,10 @@ type UpdateInterestsRequest struct {
 	Interests []string `json:"interests"`
 }
 
+type AllInterestsResponse struct {
+	Interests []string `json:"interests"`
+}
+
 type UserProfileWithInterests struct {
 	Profile   Profile  `json:"profile"`
 	Interests []string `json:"interests"`

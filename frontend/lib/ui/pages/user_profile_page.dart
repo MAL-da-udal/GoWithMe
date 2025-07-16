@@ -1,59 +1,98 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/data/functions/open_url.dart';
+import 'package:frontend/domain/providers/search_provider.dart';
 import 'package:frontend/ui/widgets/custom_filter_chip.dart';
+import 'package:frontend/ui/widgets/gender_icon.dart';
 import 'package:frontend/ui/widgets/icon_back.dart';
 
-class UserProfilePage extends StatefulWidget {
+class UserProfilePage extends ConsumerStatefulWidget {
   final String token;
   const UserProfilePage({super.key, required this.token});
 
   @override
-  State<UserProfilePage> createState() => _UserProfilePageState();
+  ConsumerState<UserProfilePage> createState() => _UserProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> {
-  final activities = ["test", "testTwo"];
-
-  final _avatarBytes = null;
+class _UserProfilePageState extends ConsumerState<UserProfilePage> {
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(searchProvider).currentUser;
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
-          'Профиль пользователя',
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 25),
-        ),
         leading: IconBack(),
+        title: Text(
+          'Профиль',
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SafeArea(
-        child: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               CircleAvatar(
-                radius: 50,
-                backgroundImage: _avatarBytes != null
-                    ? MemoryImage(_avatarBytes!)
+                radius: 55,
+                backgroundColor: Colors.grey.shade200,
+                backgroundImage: user?.avatarBytes != null
+                    ? MemoryImage(user!.avatarBytes!)
+                    : null,
+                child: user?.avatarBytes == null
+                    ? Icon(Icons.person, size: 50, color: Colors.grey)
                     : null,
               ),
-              const SizedBox(height: 16),
-              Text('Имя'),
-              const SizedBox(height: 10),
-              Text('Фамилия'),
-              const SizedBox(height: 10),
-              Text('Возраст'),
-              const SizedBox(height: 10),
-              Text('TG'),
-              const SizedBox(height: 10),
-              Text('гендер'),
-              const SizedBox(height: 16),
-              Text("Описание"),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
+              Text(
+                '${user!.name} ${user.surname}',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 6),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '${user.age} лет',
+                    style: TextStyle(color: Colors.grey.shade700),
+                  ),
+                  const SizedBox(width: 8),
+                  GenderIcon(gender: user.gender),
+                ],
+              ),
+              const SizedBox(height: 20),
+              if (user.description != null && user.description!.isNotEmpty)
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.tertiaryFixed,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text(
+                    user.description!,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+              const SizedBox(height: 24),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Интересы',
+                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                ),
+              ),
+              const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
-                children: activities.map((act) {
+                children: user.interests.map((act) {
                   return CustomFilterChip(
                     label: act,
                     selected: false,
@@ -61,13 +100,24 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
+              const SizedBox(height: 32),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 14,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
                 onPressed: () async {
-                  openUrl('https://t.me/mc_lavrushka'); //TODO: change
+                  openUrl('https://t.me/${user.telegram}');
                 },
-                child: Text("Написать"),
+                icon: Icon(Icons.telegram),
+                label: Text("Написать в Telegram"),
               ),
+              const SizedBox(height: 24),
             ],
           ),
         ),

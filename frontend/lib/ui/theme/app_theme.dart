@@ -7,7 +7,7 @@ class AppTheme {
     fontFamily: 'Montserrat',
 
     brightness: Brightness.light,
-    scaffoldBackgroundColor: AppColors.background,
+    scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
       color: AppColors.primary,
       foregroundColor: Colors.white,
@@ -45,6 +45,7 @@ class AppTheme {
       primary: AppColors.primary,
       secondary: AppColors.secondaryText,
       tertiary: Colors.black.withAlpha(200),
+      tertiaryFixed: Colors.blue.shade50,
     ),
     iconTheme: const IconThemeData(color: Colors.black, size: 24),
     iconButtonTheme: IconButtonThemeData(
@@ -96,6 +97,7 @@ class AppTheme {
       primary: AppColors.primary,
       secondary: AppColors.secondaryText,
       tertiary: Colors.white12,
+      tertiaryFixed: Colors.white12,
     ),
     iconTheme: const IconThemeData(color: Colors.white),
     iconButtonTheme: IconButtonThemeData(

@@ -15,6 +15,7 @@ class CustomFilterChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
+      checkmarkColor: Colors.white,
       label: Text(label),
       selected: selected,
       onSelected: onSelected,
@@ -22,7 +23,7 @@ class CustomFilterChip extends StatelessWidget {
       selectedColor: Theme.of(context).colorScheme.primary,
       labelStyle: TextStyle(
         color: selected
-            ? Theme.of(context).colorScheme.onPrimary
+            ? Colors.white
             : Theme.of(context).colorScheme.onSurfaceVariant,
       ),
       shape: RoundedRectangleBorder(
