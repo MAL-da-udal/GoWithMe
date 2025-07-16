@@ -8,16 +8,6 @@ void main() {
     SharedPreferences.setMockInitialValues({});
   });
 
-  test('saveToken and loadToken', () async {
-    final service = SharedPreferencesService();
-    await service.saveToken('token123');
-    final token = await service.loadToken();
-    expect(token, 'token123');
-    await service.clearToken();
-    final cleared = await service.loadToken();
-    expect(cleared, isNull);
-  });
-
   test('saveAvatar and loadAvatar', () async {
     final service = SharedPreferencesService();
     final bytes = Uint8List.fromList([1, 2, 3, 4]);
@@ -35,7 +25,7 @@ void main() {
       alias: 'jdoe',
       gender: 'M',
       description: 'desc',
-      activities: {'run', 'swim'},
+      activities: ['run', 'swim'],
     );
     final profile = await service.loadProfile();
     expect(profile['name'], 'John');

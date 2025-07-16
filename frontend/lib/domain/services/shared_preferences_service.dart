@@ -44,6 +44,7 @@ class SharedPreferencesService {
     await prefs.setString(_aliasKey, alias);
     await prefs.setString(_genderKey, gender);
     await prefs.setString(_descriptionKey, description);
+    saveActivities(activities);
   }
 
   Future<void> saveActivities(List<String> activities) async {

@@ -5,11 +5,14 @@ import 'package:frontend/data/enums/get_storage_key.dart';
 import 'package:frontend/data/models/error_messages.dart';
 import 'package:frontend/main.dart';
 
+// final baseUrl = 'http://127.0.0.1:8000/';
+final baseUrl = "https://b8a43bb2a27b.ngrok-free.app";
+
 class ApiClient {
   final GetStorage storage = GetStorage();
   final Dio dio = Dio(
     BaseOptions(
-      baseUrl: 'http://127.0.0.1:8000/',
+      baseUrl: baseUrl,
       connectTimeout: const Duration(seconds: 60),
       receiveTimeout: const Duration(seconds: 60),
       contentType: 'application/json',
@@ -44,19 +47,9 @@ class ApiClient {
           }
           if (!suppressNotification) {
             final statusCode = e.response?.statusCode;
-            final data = e.response?.data;
-
-            String? serverMessage;
-
-            if (data is Map<String, dynamic>) {
-              serverMessage = data['details'] ?? data['detail'];
-            }
 
             final fallback = 'Произошла ошибка. Попробуйте позже.';
-            final message =
-                serverMessage?.toString() ??
-                defaultErrorMessages[statusCode] ??
-                fallback;
+            final message = defaultErrorMessages[statusCode] ?? fallback;
 
             final messenger = rootScaffoldMessengerKey.currentState;
             messenger?.clearSnackBars();
