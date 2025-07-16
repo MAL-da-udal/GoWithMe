@@ -8,6 +8,8 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: always
+    networks:
+      - gowithme-net
 
   backend:
     build: ./backend/
@@ -20,7 +22,7 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - db
+      - postgres
     networks:
       - gowithme-net
 
@@ -32,22 +34,6 @@ services:
       - backend
     networks:
       - gowithme-net
-
-  db:
-    image: postgres:15
-    environment:
-      - POSTGRES_USER=gowithme
-      - POSTGRES_PASSWORD=gwm-pwd-123
-      - POSTGRES_DB=gowithme
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - gowithme-net
-
-volumes:
-  pgdata:
 
 networks:
   gowithme-net:
