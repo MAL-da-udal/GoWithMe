@@ -46,7 +46,7 @@ class _AuthPageState extends State<AuthPage> {
         );
       }
       if (mounted) {
-        context.go('/home');
+        context.go('/home/1');
       }
     } catch (e) {
       if (mounted) {

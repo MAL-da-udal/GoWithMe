@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:go_with_me/domain/providers/search_provider.dart';
 import 'package:go_with_me/domain/services/app_services.dart';
 
-class LogoutButton extends StatelessWidget {
+class LogoutButton extends ConsumerWidget {
   const LogoutButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return TextButton(
       onPressed: () {
         showDialog(
@@ -22,6 +24,7 @@ class LogoutButton extends StatelessWidget {
               TextButton(
                 onPressed: () async {
                   await apiClient.clearTokens();
+                  ref.read(searchProvider).resetAll();
                   if (context.mounted) context.go('/auth');
                 },
                 child: Text('Да'),

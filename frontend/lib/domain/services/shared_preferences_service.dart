@@ -84,4 +84,14 @@ class SharedPreferencesService {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('themeMode', theme);
   }
+
+  Future<void> saveId(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('id', id);
+  }
+
+  Future<int?> loadId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('id');
+  }
 }

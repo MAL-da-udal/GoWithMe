@@ -152,7 +152,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       selectedColor: Theme.of(context).colorScheme.primary,
                       labelStyle: TextStyle(
                         color: gender == 'Ж'
-                            ? Theme.of(context).colorScheme.onPrimary
+                            ? Colors.white
                             : Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                       shape: RoundedRectangleBorder(
@@ -170,7 +170,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       selectedColor: Theme.of(context).colorScheme.primary,
                       labelStyle: TextStyle(
                         color: gender == 'М'
-                            ? Theme.of(context).colorScheme.onPrimary
+                            ? Colors.white
                             : Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                       shape: RoundedRectangleBorder(
