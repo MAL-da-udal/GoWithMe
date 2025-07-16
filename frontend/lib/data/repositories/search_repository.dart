@@ -1,6 +1,6 @@
-import 'package:go_with_me/data/api/api_client.dart';
-import 'package:go_with_me/data/models/user.dart';
-import 'package:go_with_me/domain/services/shared_preferences_service.dart';
+import 'package:frontend/data/api/api_client.dart';
+import 'package:frontend/data/models/user.dart';
+import 'package:frontend/domain/services/shared_preferences_service.dart';
 
 class SearchRepository {
   final ApiClient apiClient;

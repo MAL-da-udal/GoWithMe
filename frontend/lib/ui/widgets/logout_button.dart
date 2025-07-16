@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_with_me/domain/providers/search_provider.dart';
-import 'package:go_with_me/domain/services/app_services.dart';
+import 'package:frontend/domain/providers/search_provider.dart';
+import 'package:frontend/domain/services/app_services.dart';
 
 class LogoutButton extends ConsumerWidget {
   const LogoutButton({super.key});

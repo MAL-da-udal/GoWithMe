@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
-import 'package:go_with_me/data/api/api_client.dart';
-import 'package:go_with_me/domain/services/shared_preferences_service.dart';
+import 'package:frontend/data/api/api_client.dart';
+import 'package:frontend/domain/services/shared_preferences_service.dart';
 
 class ProfileRepository {
   final SharedPreferencesService prefs;

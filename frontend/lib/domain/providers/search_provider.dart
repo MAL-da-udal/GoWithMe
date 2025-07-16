@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_with_me/data/models/user.dart';
-import 'package:go_with_me/domain/services/app_services.dart';
+import 'package:frontend/data/models/user.dart';
+import 'package:frontend/domain/services/app_services.dart';
 
 final searchProvider = ChangeNotifierProvider<SearchProvider>(
   (ref) => SearchProvider(),

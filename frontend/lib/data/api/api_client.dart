@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:go_with_me/data/enums/get_storage_key.dart';
-import 'package:go_with_me/data/models/error_messages.dart';
-import 'package:go_with_me/main.dart';
+import 'package:frontend/data/enums/get_storage_key.dart';
+import 'package:frontend/data/models/error_messages.dart';
+import 'package:frontend/main.dart';
 
 class ApiClient {
   final GetStorage storage = GetStorage();
@@ -28,7 +28,7 @@ class ApiClient {
         },
 
         onError: (e, handler) async {
-           final suppressNotification =
+          final suppressNotification =
               e.requestOptions.extra['suppressErrorNotification'] == true;
 
           if (e.response?.statusCode == 401) {
@@ -45,7 +45,6 @@ class ApiClient {
           if (!suppressNotification) {
             final statusCode = e.response?.statusCode;
             final data = e.response?.data;
-        
 
             String? serverMessage;
 
