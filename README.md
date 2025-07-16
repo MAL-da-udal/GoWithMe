@@ -1,6 +1,6 @@
 # GoWithMe – Find Your Activity Buddy
 
-**GoWithMe** is a full-stack cross-platform app that helps people find partners for sports and healthy lifestyle activities in their local area. The project was built during the **Flutter Summer Course** at Innopolis University.
+**GoWithMe** is a full-stack cross-platform app that helps people find partners for sports and healthy lifestyle activities in their local area. The project was built during the **Flutter Summer Course** at Innopolis University
 
 ---
 

@@ -18,9 +18,37 @@ services:
       - POSTGRES_DB=gowithme
       - SECRET_KEY=guten_tag
     ports:
-      - "8080:8080"
+      - "8000:8000"
     depends_on:
-      - postgres
+      - db
+    networks:
+      - gowithme-net
+
+  frontend:
+    build: ./frontend/
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - gowithme-net
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=gowithme
+      - POSTGRES_PASSWORD=gwm-pwd-123
+      - POSTGRES_DB=gowithme
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - gowithme-net
 
 volumes:
   pgdata:
+
+networks:
+  gowithme-net:
+    driver: bridge
